@@ -12,7 +12,7 @@ from .consts import L2LR_PICKLE_FILE
 
 class Training:
     def train(self, file_path):
-	rate_all = [1.6180339887, 2.058, 2.6180339887, 3.33, 4.236]
+        rate_all = [1.6180339887, 2.058, 2.6180339887, 3.33, 4.236]
         forecast_l_all = [
             157.08203932948422, 135.55, 127.0820393254225, 123.34,
             121.59971939649687
@@ -124,7 +124,6 @@ class Training:
 		        	gas.range.iloc[len(gas)-1-k]=sample_rate.iloc[2,2*i]
 		        	gas.forecast.iloc[len(gas)-1-k]=forecast[i]
         	fee=fee.iloc[:len(fee)-1]
-            
         gas = gas.iloc[len(gas) - 10000:len(gas), :]
         gas = gas.drop(columns=[
             'epoch', 'limit_avg_block', 'cap_avg_block', 'premium_avg_block'
