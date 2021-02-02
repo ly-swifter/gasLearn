@@ -21,6 +21,7 @@ class Training:
         forecast = [0, 0, 0, 0, 0]
         gas = pd.read_csv(file_path)
         fee = gas.parent_basefee.copy()
+	sample_rate = pd.read_csv('sample_rate')
         for k in range(10000):
 	        for j in range(5):
 		        rate = rate_all[j]
