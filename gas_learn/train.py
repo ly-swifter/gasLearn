@@ -12,6 +12,13 @@ from .consts import L2LR_PICKLE_FILE
 
 class Training:
     def train(self, file_path):
+	rate_all = [1.6180339887, 2.058, 2.6180339887, 3.33, 4.236]
+        forecast_l_all = [
+            157.08203932948422, 135.55, 127.0820393254225, 123.34,
+            121.59971939649687
+        ]
+        score = [0, 0, 0, 0, 0]
+        forecast = [0, 0, 0, 0, 0]
         gas = pd.read_csv(file_path)
         fee = gas.parent_basefee.copy()
         for k in range(10000):
@@ -119,13 +126,6 @@ class Training:
         	fee=fee.iloc[:len(fee)-1]
             
         gas = gas.iloc[len(gas) - 10000:len(gas), :]
-        rate_all = [1.6180339887, 2.058, 2.6180339887, 3.33, 4.236]
-        forecast_l_all = [
-            157.08203932948422, 135.55, 127.0820393254225, 123.34,
-            121.59971939649687
-        ]
-        score = [0, 0, 0, 0, 0]
-        forecast = [0, 0, 0, 0, 0]
         gas = gas.drop(columns=[
             'epoch', 'limit_avg_block', 'cap_avg_block', 'premium_avg_block'
         ])
