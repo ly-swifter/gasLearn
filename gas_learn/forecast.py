@@ -238,9 +238,8 @@ class Forecastting:
                         axis=1)
         gas = gas.drop(columns=['range'])
         my_scaler = MinMaxScaler(feature_range=(0, 1))
-        print('gas_test_log')
-        print(len(gas) - raw_range)
-        print(len(gas))
+        print('range_log')
+        print(raw_range)
         gas_test = gas.iloc[len(gas) - raw_range:len(gas), :].copy()
         gas_test = pd.DataFrame(
             pd.DataFrame(gas_test.iloc[len(gas_test) - 1, :]).values.reshape(
