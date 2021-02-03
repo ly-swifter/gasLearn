@@ -238,11 +238,10 @@ class Forecastting:
         ],
                         axis=1)
         gas = gas.drop(columns=['range'])
-        my_scaler = MinMaxScaler(feature_range=(0, 1))
-        gas_test = gas.iloc[len(gas) - raw_range:len(gas), :].copy()
-        gas_test.shape
         print('gas_test_shape')
         print(gas_test.shape)
+        my_scaler = MinMaxScaler(feature_range=(0, 1))
+        gas_test = gas.iloc[len(gas) - raw_range:len(gas), :].copy()
         tmp = gas_test.copy()
         tmp = my_scaler.fit_transform(tmp).copy()
         gas_test.loc[:, :] = tmp.copy()
