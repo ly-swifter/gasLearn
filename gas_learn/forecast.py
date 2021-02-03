@@ -31,6 +31,8 @@ class Forecastting:
             'epoch', 'limit_avg_block', 'cap_avg_block', 'premium_avg_block'
         ])
         fee = gas.parent_basefee.copy()
+        print('nick_fee')
+        print(fee.shape)
         for j in range(5):
             rate = rate_all[j]
             forecast_l = forecast_l_all[j]
