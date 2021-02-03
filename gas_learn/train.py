@@ -8,7 +8,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn import preprocessing
 from sklearn.preprocessing import MinMaxScaler
 
-from .consts import L2LR_PICKLE_FILE
+from .consts import L2LR_PICKLE_FILE, SAMPLE_RATE_FILE
 
 
 class Training:
@@ -22,7 +22,7 @@ class Training:
         forecast = [0, 0, 0, 0, 0]
         gas = pd.read_csv(file_path)
         fee = gas.parent_basefee.copy()
-        sample_rate = pd.read_csv('sample_rate')
+        sample_rate = pd.read_csv(SAMPLE_RATE_FILE)
         for k in range(10000):
             for j in range(5):
                 rate = rate_all[j]
