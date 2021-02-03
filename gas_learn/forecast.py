@@ -15,8 +15,9 @@ class Forecastting:
     def forecast(self, file_path):
         L2LR = pickle.load(open(L2LR_PICKLE_FILE, 'rb'))
         sample_rate = pd.read_csv(SAMPLE_RATE_FILE)
-
         gas = pd.read_csv(file_path)
+        flag='nick'
+        flag
         gas.shape
         gas = gas.iloc[len(gas) - 10000:len(gas), :]
         rate_all = [1.6180339887, 2.058, 2.6180339887, 3.33, 4.236]
