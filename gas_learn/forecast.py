@@ -17,6 +17,7 @@ class Forecastting:
         sample_rate = pd.read_csv(SAMPLE_RATE_FILE)
 
         gas = pd.read_csv(file_path)
+        gas.shape
         gas = gas.iloc[len(gas) - 10000:len(gas), :]
         rate_all = [1.6180339887, 2.058, 2.6180339887, 3.33, 4.236]
         forecast_l_all = [
@@ -42,8 +43,8 @@ class Forecastting:
             res = np.interp(
                 list.values.reshape(len(list)),
                 pd.DataFrame(range(raw_range)).values.reshape(raw_range),
-                fee.iloc[len(fee) - raw_range:len(fee)].sort_index(
-                    ascending=False).values.reshape(raw_range)).copy()
+                fee.copy().iloc[len(fee) - raw_range:len(fee)].sort_index(
+                    ascending=False).values.reshape(raw_range))
             res = pd.DataFrame(res).sort_index(ascending=False)
             l = np.polyfit(range(res_range), res.values.reshape(len(res)), 1)
             k_0 = l[0]
@@ -63,8 +64,8 @@ class Forecastting:
             res = np.interp(
                 list.values.reshape(len(list)),
                 pd.DataFrame(range(raw_range)).values.reshape(raw_range),
-                fee.iloc[len(fee) - raw_range:len(fee)].sort_index(
-                    ascending=False).values.reshape(raw_range)).copy()
+                fee.copy().iloc[len(fee) - raw_range:len(fee)].sort_index(
+                    ascending=False).values.reshape(raw_range))
             res = pd.DataFrame(res).sort_index(ascending=False)
             l = np.polyfit(range(res_range), res.values.reshape(len(res)), 1)
             k_1 = l[0]
@@ -84,8 +85,8 @@ class Forecastting:
             res = np.interp(
                 list.values.reshape(len(list)),
                 pd.DataFrame(range(raw_range)).values.reshape(raw_range),
-                fee.iloc[len(fee) - raw_range:len(fee)].sort_index(
-                    ascending=False).values.reshape(raw_range)).copy()
+                fee.copy().iloc[len(fee) - raw_range:len(fee)].sort_index(
+                    ascending=False).values.reshape(raw_range))
             res = pd.DataFrame(res).sort_index(ascending=False)
             l = np.polyfit(range(res_range), res.values.reshape(len(res)), 1)
             k_2 = l[0]
