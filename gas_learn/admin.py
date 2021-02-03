@@ -44,7 +44,7 @@ class TrainingBlockModelAdmin(admin.ModelAdmin):
                     "cap_total_block", "cap_avg_block", "premium_total_block",
                     "premium_avg_block")
     search_fields = ("epoch", "block_count")
-    list_filter = ("block_count", "count_block")
+    list_filter = ("block_count",)
 
 
 @admin.register(TrainingResultModel)
