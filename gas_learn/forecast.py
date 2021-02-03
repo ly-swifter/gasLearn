@@ -10,6 +10,7 @@ from sklearn.preprocessing import MinMaxScaler
 
 from .consts import L2LR_PICKLE_FILE, SAMPLE_RATE_FILE
 
+
 class Forecastting:
     def forecast(self, file_path):
         L2LR = pickle.load(open(L2LR_PICKLE_FILE, 'rb'))
