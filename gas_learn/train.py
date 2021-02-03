@@ -13,6 +13,8 @@ from .consts import L2LR_PICKLE_FILE, SAMPLE_RATE_FILE
 
 class Training:
     def train(self, file_path):
+        print("path")
+        print(file_path)
         rate_all = [1.6180339887, 2.058, 2.6180339887, 3.33, 4.236]
         forecast_l_all = [
             157.08203932948422, 135.55, 127.0820393254225, 123.34,
