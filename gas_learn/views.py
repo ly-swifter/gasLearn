@@ -18,7 +18,7 @@ from .serializers import ForecastDataSerializer, ForecastResultSerializer, Forec
 
 from .train import Training
 from .forecast import Forecastting
-from .consts import ORIGINAL_DATA_FILE
+from .consts import ORIGINAL_DATA_FILE, ORIGINAL_TRAIN_DATA_FILE
 
 
 class ForecastTiggerView(APIView):
@@ -96,7 +96,7 @@ class TrainingTiggerView(APIView):
         TrainningTiggerView post
         """
         train_obj = Training()
-        train_obj.train(ORIGINAL_DATA_FILE)
+        train_obj.train(ORIGINAL_TRAIN_DATA_FILE)
         return Response(status=status.HTTP_200_OK)
 
 
