@@ -16,9 +16,6 @@ class Forecastting:
         L2LR = pickle.load(open(L2LR_PICKLE_FILE, 'rb'))
         sample_rate = pd.read_csv(SAMPLE_RATE_FILE)
         gas = pd.read_csv(file_path)
-        flag='nick'
-        print(flag)
-        print(gas.shape)
         gas = gas.iloc[len(gas) - 10000:len(gas), :]
         rate_all = [1.6180339887, 2.058, 2.6180339887, 3.33, 4.236]
         forecast_l_all = [
@@ -31,8 +28,7 @@ class Forecastting:
             'epoch', 'limit_avg_block', 'cap_avg_block', 'premium_avg_block'
         ])
         fee = gas.parent_basefee.copy()
-        print('nick_fee')
-        print(fee.shape)
+        fee.shape
         for j in range(5):
             rate = rate_all[j]
             forecast_l = forecast_l_all[j]
@@ -43,11 +39,6 @@ class Forecastting:
             for i in range(res_range):
                 list.iloc[i, 0] *= outter / inner
             raw_range = round(list.iloc[len(list) - 1, 0])
-            print(flag)
-            print(raw_range)
-            print(fee.shape)
-            print(fee.copy().iloc[len(fee) - raw_range:len(fee)].shape)
-            print(fee.copy().iloc[len(fee) - raw_range:len(fee)].sort_index( ascending=False).shape)
             res = np.interp(
                 list.values.reshape(len(list)),
                 pd.DataFrame(range(raw_range)).values.reshape(raw_range),
@@ -249,6 +240,8 @@ class Forecastting:
         gas = gas.drop(columns=['range'])
         my_scaler = MinMaxScaler(feature_range=(0, 1))
         gas_test = gas.iloc[len(gas) - raw_range:len(gas), :].copy()
+        print('gas_test_shape')
+        print(gas_test.shape)
         tmp = gas_test.copy()
         tmp = my_scaler.fit_transform(tmp).copy()
         gas_test.loc[:, :] = tmp.copy()
