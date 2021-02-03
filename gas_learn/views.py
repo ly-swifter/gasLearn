@@ -107,30 +107,30 @@ class TrainningDataView(generics.ListCreateAPIView):
     queryset = TrainingBlockModel.objects.all()
     serializer_class = TrainingBlockSerializer
 
-    # def perform_create(self, serializer):
-    #     serializer.save()
+    def perform_create(self, serializer):
+        serializer.save()
 
-    #     # save to csv
-    #     columns_title = [
-    #         "epoch", "empty_num", "block_count", "parent_basefee",
-    #         "count_block", "limit_total_block", "limit_avg_block",
-    #         "cap_total_block", "cap_avg_block", "premium_total_block",
-    #         "premium_avg_block", "range", "forecast"
-    #     ]
+        # save to csv
+        columns_title = [
+            "epoch", "empty_num", "block_count", "parent_basefee",
+            "count_block", "limit_total_block", "limit_avg_block",
+            "cap_total_block", "cap_avg_block", "premium_total_block",
+            "premium_avg_block", "range", "forecast"
+        ]
 
-    #     csv_file = []
-    #     q_set = TrainingBlockModel.objects.all()
-    #     for ele in q_set:
-    #         tmp = [
-    #             ele.epoch, ele.empty_num, ele.block_count, ele.parent_basefee,
-    #             ele.count_block, ele.limit_total_block, ele.limit_avg_block,
-    #             ele.cap_total_block, ele.cap_avg_block,
-    #             ele.premium_total_block, ele.premium_avg_block, ele.backward, 0
-    #         ]
-    #         csv_file.append(tmp)
+        csv_file = []
+        q_set = TrainingBlockModel.objects.all()
+        for ele in q_set:
+            tmp = [
+                ele.epoch, ele.empty_num, ele.block_count, ele.parent_basefee,
+                ele.count_block, ele.limit_total_block, ele.limit_avg_block,
+                ele.cap_total_block, ele.cap_avg_block,
+                ele.premium_total_block, ele.premium_avg_block, ele.backward, 0
+            ]
+            csv_file.append(tmp)
 
-    #     df_i = pd.DataFrame(csv_file, columns=columns_title)
-    #     df_i.to_csv(ORIGINAL_DATA_FILE, index=False)
+        df_i = pd.DataFrame(csv_file, columns=columns_title)
+        df_i.to_csv(ORIGINAL_DATA_FILE, index=False)
 
 
 class TrainingResultView(generics.ListCreateAPIView):
