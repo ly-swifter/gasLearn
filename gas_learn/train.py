@@ -39,7 +39,7 @@ class Training:
                 res = np.interp(
                     list.values.reshape(len(list)),
                     pd.DataFrame(range(raw_range)).values.reshape(raw_range),
-                    fee.iloc[len(fee) - raw_range:len(fee)].sort_index(
+                    fee.iloc[len(fee) - raw_range : len(fee)].sort_index(
                         ascending=False).values.reshape(raw_range)).copy()
                 res = pd.DataFrame(res).sort_index(ascending=False)
                 l = np.polyfit(range(res_range), res.values.reshape(len(res)),
@@ -50,7 +50,7 @@ class Training:
                 for i in range(len(res)):
                     res.iloc[i, 0] -= b
                 res_raw_0 = res.copy()
-                res_0 = res.rolling(5).median().iloc[4:]
+                res_0 = res.rolling(5).median().iloc[4 : ]
                 outter = sample_rate.iloc[1, 2 * j]
                 inner = sample_rate.iloc[1, 2 * j + 1]
                 res_range = round(inner)
@@ -61,7 +61,7 @@ class Training:
                 res = np.interp(
                     list.values.reshape(len(list)),
                     pd.DataFrame(range(raw_range)).values.reshape(raw_range),
-                    fee.iloc[len(fee) - raw_range:len(fee)].sort_index(
+                    fee.iloc[len(fee) - raw_range : len(fee)].sort_index(
                         ascending=False).values.reshape(raw_range)).copy()
                 res = pd.DataFrame(res).sort_index(ascending=False)
                 l = np.polyfit(range(res_range), res.values.reshape(len(res)),
@@ -72,7 +72,7 @@ class Training:
                 for i in range(len(res)):
                     res.iloc[i, 0] -= b
                 res_raw_1 = res.copy()
-                res_1 = res.rolling(5).median().iloc[4:]
+                res_1 = res.rolling(5).median().iloc[4 : ]
                 outter = sample_rate.iloc[2, 2 * j]
                 inner = sample_rate.iloc[2, 2 * j + 1]
                 res_range = round(inner)
@@ -83,7 +83,7 @@ class Training:
                 res = np.interp(
                     list.values.reshape(len(list)),
                     pd.DataFrame(range(raw_range)).values.reshape(raw_range),
-                    fee.iloc[len(fee) - raw_range:len(fee)].sort_index(
+                    fee.iloc[len(fee) - raw_range : len(fee)].sort_index(
                         ascending=False).values.reshape(raw_range)).copy()
                 res = pd.DataFrame(res).sort_index(ascending=False)
                 l = np.polyfit(range(res_range), res.values.reshape(len(res)),
@@ -94,10 +94,10 @@ class Training:
                 for i in range(len(res)):
                     res.iloc[i, 0] -= b
                 res_raw_2 = res.copy()
-                res_2 = res.rolling(5).median().iloc[4:]
-                _res_0 = res_1.iloc[:len(res_0)].values / res_0.values
-                _res_1 = res_2.iloc[:len(res_0)].values / res_0.values
-                _res_2 = res_2.iloc[:len(res_1)].values / res_1.values
+                res_2 = res.rolling(5).median().iloc[4 : ]
+                _res_0 = res_1.iloc[ : len(res_0)].values / res_0.values
+                _res_1 = res_2.iloc[ : len(res_0)].values / res_0.values
+                _res_2 = res_2.iloc[ : len(res_1)].values / res_1.values
                 for i in range(len(_res_0)):
                     if (-1 < _res_0[i, 0] < 1):
                         _res_0[i, 0] = 1 / _res_0[i, 0]
@@ -116,11 +116,11 @@ class Training:
                                 k_0 / rate, k_1 / (rate * rate), k_2 /
                                 (rate * rate * rate)
                             ])
-                _res_0 = res_raw_0.values / res_raw_1.iloc[:len(res_raw_0
+                _res_0 = res_raw_0.values / res_raw_1.iloc[ : len(res_raw_0
                                                                 )].values
-                _res_1 = res_raw_0.values / res_raw_2.iloc[:len(res_raw_0
+                _res_1 = res_raw_0.values / res_raw_2.iloc[ : len(res_raw_0
                                                                 )].values
-                _res_2 = res_raw_1.values / res_raw_2.iloc[:len(res_raw_1
+                _res_2 = res_raw_1.values / res_raw_2.iloc[ : len(res_raw_1
                                                                 )].values
                 prop_raw = pd.concat([
                     pd.DataFrame(_res_0),
@@ -163,11 +163,11 @@ class Training:
                     5).median().iloc[4]
             for i in range(5):
                 if (np.min(score) == score[i]):
-                    gas.range.iloc[len(gas) - 1 - k] = sample_rate.iloc[2,
+                    gas.iloc[len(gas) - 1 - k, 11] = sample_rate.iloc[2,
                                                                         2 * i]
-                    gas.forecast.iloc[len(gas) - 1 - k] = forecast[i]
-            fee = fee.iloc[:len(fee) - 1]
-        gas = gas.iloc[len(gas) - 10000:len(gas), :]
+                    gas.iloc[len(gas) - 1 - k, 12] = forecast[i]
+            fee = fee.iloc[: len(fee) - 1]
+        gas = gas.iloc[len(gas) - 10000 : len(gas), :]
         for i in range(len(gas)):
             if (gas.iloc[i, 0]):
                 gas.iloc[i, 0] = 1
@@ -177,7 +177,7 @@ class Training:
         tar = pd.DataFrame(gas.parent_basefee)
         tar.insert(1, 'tar', 0)
         for i in range(len(tar) - 120):
-            if (np.median(tar.iloc[i:i + 120, 0]) > tar.iloc[i, 0]):
+            if (np.median(tar.iloc[i : i + 120, 0]) > tar.iloc[i, 0]):
                 tar.iloc[i, 1] = 1
             else:
                 tar.iloc[i, 1] = 0
@@ -185,7 +185,7 @@ class Training:
         gas = gas.fillna(0)
         fee = gas.parent_basefee.copy()
         gas = gas.drop(columns=['parent_basefee'])
-        raw_range = round(np.median(gas.range.iloc[len(gas) - 120:len(gas)]))
+        raw_range = round(np.median(gas.range.iloc[len(gas) - 120 : len(gas)]))
         if (raw_range <= 508):
             raw_ex = [1, 3, 18]
             rate_f = 0
