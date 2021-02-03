@@ -162,7 +162,6 @@ class Forecastting:
             if (np.min(score) == score[i]):
                 gas.range.iloc[len(gas) - 1] = sample_rate.iloc[2, 2 * i]
                 gas.forecast.iloc[len(gas) - 1] = forecast[i]
-        gas.to_csv('gas', index=False)
         gas = gas.drop(columns=['parent_basefee'])
         raw_range = round(np.median(gas.range.iloc[len(gas) - 120:len(gas)]))
         if (raw_range <= 508):
