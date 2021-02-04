@@ -169,7 +169,7 @@ class Training:
                     5).median().iloc[4]
             
             endtime = datetime.datetime.now()
-            time_cost = end_time - start_time
+            time_cost = endtime - starttime
             print(str(time_cost).split('.')[0])
 
             starttime1 = datetime.datetime.now()
@@ -178,7 +178,7 @@ class Training:
                     gas.iloc[len(gas) - 1 - k, 11] = sample_rate.iloc[2, 2 * i]
                     gas.iloc[len(gas) - 1 - k, 12] = forecast[i]
             endtime1 = datetime.datetime.now()
-            time_cost1 = end_time1 - start_time1
+            time_cost1 = endtime1 - starttime1
             print(str(time_cost).split('.')[0])
             fee = fee.iloc[:len(fee) - 1]
 
