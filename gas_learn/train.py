@@ -11,7 +11,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn import preprocessing
 from sklearn.preprocessing import MinMaxScaler
 
-from .consts import L2LR_PICKLE_FILE, SAMPLE_RATE_FILE, TRAIN_RAW_RANG
+from .consts import L2LR_PICKLE_FILE, SAMPLE_RATE_FILE, TRAIN_RAW_RANG, R_F
 
 class Training:
     def train(self, file_path):
@@ -26,8 +26,9 @@ class Training:
         forecast = [0, 0, 0, 0, 0]
         gas = pd.read_csv(file_path)
         fee = gas.parent_basefee.copy()
+        range_forecast=pd.read_csv(R_F)
         sample_rate = pd.read_csv(SAMPLE_RATE_FILE)
-        gas = gas.iloc[len(gas) - 10000:len(gas), :]
+        gas = pd.merge(gas.drop(columns=['range', 'forecast']), range_forecast, on = 'epoch', how = 'inner').sort_values(by = ['epoch'], ascending=True).fillna(0).iloc[len(gas) - 10000 : len(gas), :]
         for i in range(len(gas)):
             if (gas.iloc[i, 0]):
                 gas.iloc[i, 0] = 1
