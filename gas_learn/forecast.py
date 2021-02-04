@@ -167,6 +167,9 @@ class Forecastting:
             if (np.min(score) == score[i]):
                 gas.range.iloc[len(gas) - 1] = sample_rate.iloc[2, 2 * i]
                 gas.forecast.iloc[len(gas) - 1] = forecast[i]
+                print('nick')
+                print(sample_rate.iloc[2, 2 * i])
+                print(forecast[i])
                 range_forecast = pd.concat([epoch, gas.range, gas.forecast], axis = 1)
                 range_forecast.to_csv('range_forecast', index = False)
                 forecast_res = forecast[i]
