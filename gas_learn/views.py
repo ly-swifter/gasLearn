@@ -54,6 +54,7 @@ class ForecastTiggerView(APIView):
             })
 
         print('s_set: %s' % s_set)
+        print(s_set.is_valid())
 
         if s_set.is_valid():
             s_set.save()
