@@ -34,23 +34,19 @@ class ForecastTiggerView(APIView):
         ForecastTiggerView
         """
 
-        req = request.data
-
-        print(req)
-
         raw_range = os.environ.get(TRAIN_RAW_RANG)
         print('raw_range: %s' % raw_range)
         if raw_range is None:
             raw_range = 508
 
         fore_obj = Forecastting()
-        is_incrase, proba_positive = fore_obj.forecast(
-            ORIGINAL_DATA_FILE, raw_range)
+        is_incrase, proba_positive = fore_obj.forecast(ORIGINAL_DATA_FILE,
+                                                       raw_range)
         print(is_incrase, proba_positive)
 
         s_set = ForecastResultSerializer(
             data={
-                "epoch": req,
+                "epoch": request.data,
                 "parent_basefee": 0,
                 "delta": 0,
                 "isPostive": is_incrase,

@@ -123,7 +123,7 @@ class Forecastting:
                 pd.DataFrame(_res_1),
                 pd.DataFrame(_res_2)
             ],
-                                axis=1)
+                                 axis=1)
             to_fill = prop_raw.iloc[:, 0]
             to_fill = to_fill.fillna(np.median(to_fill[np.isfinite(to_fill)]))
             prop_raw.iloc[:, 0] = to_fill
@@ -140,13 +140,13 @@ class Forecastting:
                 if (np.isnan(history_raw.iloc[i, 0])):
                     if (np.isnan(history_raw.iloc[i, 1])):
                         history_raw.iloc[i,
-                                        0] = history_raw.iloc[i, 2] * np.mean(
-                                            prop_raw.iloc[:, 1]) * np.mean(
-                                                prop_raw.iloc[:, 1])
+                                         0] = history_raw.iloc[i, 2] * np.mean(
+                                             prop_raw.iloc[:, 1]) * np.mean(
+                                                 prop_raw.iloc[:, 1])
                     else:
                         history_raw.iloc[i,
-                                        0] = history_raw.iloc[i, 1] * np.mean(
-                                            prop_raw.iloc[:, 0])
+                                         0] = history_raw.iloc[i, 1] * np.mean(
+                                             prop_raw.iloc[:, 0])
             history_raw = history_raw.iloc[:, 0]
             for i in range(len(prop_raw)):
                 prop_raw.iloc[i, 0] = np.median(prop_raw.iloc[i, :])
