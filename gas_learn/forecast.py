@@ -8,14 +8,14 @@ from sklearn.linear_model import LogisticRegression
 from sklearn import preprocessing
 from sklearn.preprocessing import MinMaxScaler
 
-from .consts import L2LR_PICKLE_FILE, SAMPLE_RATE_FILE, R_L
+from .consts import L2LR_PICKLE_FILE, SAMPLE_RATE_FILE, R_F
 
 
 class Forecastting:
     def forecast(self, file_path, raw_range):
         L2LR = pickle.load(open(L2LR_PICKLE_FILE, 'rb'))
         sample_rate = pd.read_csv(SAMPLE_RATE_FILE)
-        range_forecast = pd.read_csv(R_L)
+        range_forecast = pd.read_csv(R_F)
         gas = pd.read_csv(file_path)
         gas = gas.drop(columns = ['range', 'forecast'])
         gas = pd.merge(gas, range_forecast, on = 'epoch', how = 'outter')
