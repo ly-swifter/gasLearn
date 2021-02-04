@@ -106,6 +106,8 @@ class TrainingTiggerView(APIView):
         """
         TrainningTiggerView post
         """
+        print("train tigger")
+        print(request)
         train_obj = Training()
         train_obj.train(ORIGINAL_DATA_FILE)
         return Response(status=status.HTTP_200_OK)
