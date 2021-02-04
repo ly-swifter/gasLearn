@@ -15,7 +15,10 @@ class Forecastting:
     def forecast(self, file_path, raw_range):
         L2LR = pickle.load(open(L2LR_PICKLE_FILE, 'rb'))
         sample_rate = pd.read_csv(SAMPLE_RATE_FILE)
+        range_forecast = pd.read_csv('range_forecast')
         gas = pd.read_csv(file_path)
+        gas = gas.drop(columns = ['range', 'forecast'])
+        gas = pd.merge(gas, range_forecast, on = 'epoch', how = 'outter')
         gas = gas.iloc[len(gas) - 10000:len(gas), :]
         rate_all = [1.6180339887, 2.058, 2.6180339887, 3.33, 4.236]
         forecast_l_all = [
@@ -24,6 +27,7 @@ class Forecastting:
         ]
         score = [0, 0, 0, 0, 0]
         forecast = [0, 0, 0, 0, 0]
+        epoch = gas.epoch
         gas = gas.drop(columns=[
             'epoch', 'limit_avg_block', 'cap_avg_block', 'premium_avg_block'
         ])
@@ -161,6 +165,8 @@ class Forecastting:
             if (np.min(score) == score[i]):
                 gas.range.iloc[len(gas) - 1] = sample_rate.iloc[2, 2 * i]
                 gas.forecast.iloc[len(gas) - 1] = forecast[i]
+                range_forecast = pd.concat([epoch, gas.range, gas.forecast], axis = 1)
+                range_forecast.to_csv('range_forecast', index = False)
                 forecast_res = forecast[i]
         gas = gas.drop(columns=['parent_basefee'])
         if (raw_range <= 508):
