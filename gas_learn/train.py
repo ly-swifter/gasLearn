@@ -5,6 +5,8 @@ import pandas as pd
 import numpy as np
 import requests
 
+import datetime
+
 from sklearn.linear_model import LogisticRegression
 from sklearn import preprocessing
 from sklearn.preprocessing import MinMaxScaler
@@ -28,6 +30,8 @@ class Training:
         print(sample_rate)
         for k in range(10000):
             print("k: %d" % k)
+            starttime = datetime.datetime.now()
+
             for j in range(5):
                 rate = rate_all[j]
                 forecast_l = forecast_l_all[j]
@@ -163,13 +167,19 @@ class Training:
                     history_raw.iloc[i] *= np.median(prop_raw)
                 forecast[j] = history_raw.median() - history_raw.rolling(
                     5).median().iloc[4]
+            
+            endtime = datetime.datetime.now()
+            print (endtime - starttime).seconds
+
+            starttime1 = datetime.datetime.now()
             for i in range(5):
                 if (np.min(score) == score[i]):
                     gas.iloc[len(gas) - 1 - k, 11] = sample_rate.iloc[2, 2 * i]
                     gas.iloc[len(gas) - 1 - k, 12] = forecast[i]
+            endtime1 = datetime.datetime.now()
+            print (endtime1 - starttime1).seconds
             fee = fee.iloc[:len(fee) - 1]
-        
-        print("here")
+            
         gas = gas.iloc[len(gas) - 10000:len(gas), :]
         for i in range(len(gas)):
             if (gas.iloc[i, 0]):
