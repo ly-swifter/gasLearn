@@ -186,7 +186,7 @@ class ForecastDataModel(models.Model):
 class ForecastResultModel(models.Model):
     epoch = models.IntegerField(unique=True)
     parent_basefee = models.BigIntegerField()
-    delta = models.BigIntegerField(default=0)
+    delta = models.FloatField(default=0)
     isPostive = models.BooleanField(default=True)
     delta_proba = models.FloatField(default=0)
 
