@@ -1,6 +1,7 @@
 from subprocess import call
 
 import pandas as pd
+import os
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -18,7 +19,7 @@ from .serializers import ForecastDataSerializer, ForecastResultSerializer, Forec
 
 from .train import Training
 from .forecast import Forecastting
-from .consts import ORIGINAL_DATA_FILE, ORIGINAL_TRAIN_DATA_FILE
+from .consts import ORIGINAL_DATA_FILE, ORIGINAL_TRAIN_DATA_FILE, TRAIN_RAW_RANG
 
 
 class ForecastTiggerView(APIView):
@@ -34,11 +35,14 @@ class ForecastTiggerView(APIView):
         """
 
         req = request.data
-        print(req)
+
+        raw_range = 508
+        if os.environ.has_key(TRAIN_RAW_RANG):
+            raw_range = os.environ.get(TRAIN_RAW_RANG)
 
         fore_obj = Forecastting()
         is_incrase, proba_positive, proba_negtive = fore_obj.forecast(
-            ORIGINAL_DATA_FILE, 508)
+            ORIGINAL_DATA_FILE, raw_range)
         print(is_incrase, proba_negtive, proba_positive)
 
         s_set = ForecastResultSerializer(

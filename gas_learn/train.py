@@ -1,4 +1,5 @@
 import pickle
+import os
 
 import pandas as pd
 import numpy as np
@@ -8,7 +9,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn import preprocessing
 from sklearn.preprocessing import MinMaxScaler
 
-from .consts import L2LR_PICKLE_FILE, SAMPLE_RATE_FILE
+from .consts import L2LR_PICKLE_FILE, SAMPLE_RATE_FILE, TRAIN_RAW_RANG
 
 
 class Training:
@@ -383,4 +384,5 @@ class Training:
                 pickle.dump(L2LR, f)
             print("raw_range")
             print("%s" % raw_range)
+            os.environ[TRAIN_RAW_RANG] = raw_range
             return raw_range
