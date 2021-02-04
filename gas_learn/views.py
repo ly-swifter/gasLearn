@@ -50,7 +50,7 @@ class ForecastTiggerView(APIView):
 
         s_set = ForecastResultSerializer(
             data={
-                "epoch": req.epoch,
+                "epoch": req,
                 "parent_basefee": 0,
                 "delta": 0,
                 "isPostive": is_incrase,
