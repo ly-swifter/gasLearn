@@ -169,7 +169,8 @@ class Training:
                     5).median().iloc[4]
             
             endtime = datetime.datetime.now()
-            print (endtime - starttime).seconds
+            time_cost = end_time - start_time
+            print(str(time_cost).split('.')[0])
 
             starttime1 = datetime.datetime.now()
             for i in range(5):
@@ -177,9 +178,10 @@ class Training:
                     gas.iloc[len(gas) - 1 - k, 11] = sample_rate.iloc[2, 2 * i]
                     gas.iloc[len(gas) - 1 - k, 12] = forecast[i]
             endtime1 = datetime.datetime.now()
-            print (endtime1 - starttime1).seconds
+            time_cost1 = end_time1 - start_time1
+            print(str(time_cost).split('.')[0])
             fee = fee.iloc[:len(fee) - 1]
-            
+
         gas = gas.iloc[len(gas) - 10000:len(gas), :]
         for i in range(len(gas)):
             if (gas.iloc[i, 0]):
