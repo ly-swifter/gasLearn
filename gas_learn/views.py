@@ -53,6 +53,8 @@ class ForecastTiggerView(APIView):
                 "delta_proba": proba_positive,
             })
 
+        print('s_set: %s' % s_set)
+
         if s_set.is_valid():
             s_set.save()
 
