@@ -8,7 +8,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn import preprocessing
 from sklearn.preprocessing import MinMaxScaler
 
-from .consts import L2LR_PICKLE_FILE, SAMPLE_RATE_FILE
+from .consts import L2LR_PICKLE_FILE, SAMPLE_RATE_FILE, R_L
 
 
 class Forecastting:
