@@ -76,9 +76,9 @@ class ForecastDataModelAdmin(admin.ModelAdmin):
 
 @admin.register(ForecastResultModel)
 class ForecastResultModelAdmin(admin.ModelAdmin):
-    list_display = ("epoch", "isPostive")
+    list_display = ("epoch", "parent_basefee", "delta", "isPostive", "delta_proba")
     search_fields = list_display
-    list_filter = search_fields
+    list_filter = ("isPostive",)
 
 
 @admin.register(ForecastTiggerModel)
