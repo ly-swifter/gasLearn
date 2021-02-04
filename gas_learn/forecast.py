@@ -12,7 +12,7 @@ from .consts import L2LR_PICKLE_FILE, SAMPLE_RATE_FILE
 
 
 class Forecastting:
-    def forecast(self, file_path,raw_range):
+    def forecast(self, file_path, raw_range):
         L2LR = pickle.load(open(L2LR_PICKLE_FILE, 'rb'))
         sample_rate = pd.read_csv(SAMPLE_RATE_FILE)
         gas = pd.read_csv(file_path)
