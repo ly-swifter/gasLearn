@@ -25,6 +25,7 @@ class Training:
         gas = pd.read_csv(file_path)
         fee = gas.parent_basefee.copy()
         sample_rate = pd.read_csv(SAMPLE_RATE_FILE)
+        print(sample_rate)
         for k in range(10000):
             for j in range(5):
                 rate = rate_all[j]
@@ -166,6 +167,8 @@ class Training:
                     gas.iloc[len(gas) - 1 - k, 11] = sample_rate.iloc[2, 2 * i]
                     gas.iloc[len(gas) - 1 - k, 12] = forecast[i]
             fee = fee.iloc[:len(fee) - 1]
+        
+        print("here")
         gas = gas.iloc[len(gas) - 10000:len(gas), :]
         for i in range(len(gas)):
             if (gas.iloc[i, 0]):
