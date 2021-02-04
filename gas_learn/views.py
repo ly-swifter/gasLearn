@@ -44,13 +44,17 @@ class ForecastTiggerView(APIView):
                                                        raw_range)
         print(is_incrase, proba_positive, forecast_res)
 
+        is_pos = False
+        if is_incrase[0] > 0:
+            is_pos = True
+
         s_set = ForecastResultSerializer(
             data={
                 "epoch": request.data,
                 "parent_basefee": 0,
-                "delta": 0,
-                "isPostive": is_incrase,
-                "delta_proba": proba_positive,
+                "delta": forecast_res,
+                "isPostive": is_pos,
+                "delta_proba": proba_positive[0][0],
             })
 
         print('s_set: %s' % s_set)
