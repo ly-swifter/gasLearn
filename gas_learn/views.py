@@ -1,7 +1,7 @@
+import os
 from subprocess import call
 
 import pandas as pd
-import os
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -36,9 +36,10 @@ class ForecastTiggerView(APIView):
 
         req = request.data
 
-        raw_range = 508
-        if os.environ.has_key(TRAIN_RAW_RANG):
-            raw_range = os.environ.get(TRAIN_RAW_RANG)
+        raw_range = os.environ.get(TRAIN_RAW_RANG)
+        print('raw_range: %s' % raw_range)
+        if raw_range == '':
+            raw_range = 508
 
         fore_obj = Forecastting()
         is_incrase, proba_positive, proba_negtive = fore_obj.forecast(
