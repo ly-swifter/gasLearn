@@ -179,7 +179,7 @@ class Training:
                     gas.iloc[len(gas) - 1 - k, 12] = forecast[i]
             endtime1 = datetime.datetime.now()
             time_cost1 = endtime1 - starttime1
-            print(str(time_cost).split('.')[0])
+            print(str(time_cost1).split('.')[0])
             fee = fee.iloc[:len(fee) - 1]
 
         gas = gas.iloc[len(gas) - 10000:len(gas), :]
