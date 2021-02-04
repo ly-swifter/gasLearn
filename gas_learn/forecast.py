@@ -16,6 +16,7 @@ class Forecastting:
         L2LR = pickle.load(open(L2LR_PICKLE_FILE, 'rb'))
         sample_rate = pd.read_csv(SAMPLE_RATE_FILE)
         range_forecast = pd.read_csv(R_F)
+        forecast_res = 0
         gas = pd.read_csv(file_path)
         gas = gas.drop(columns = ['range', 'forecast'])
         gas = pd.merge(gas, range_forecast, on = 'epoch', how = 'outer')
