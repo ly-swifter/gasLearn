@@ -161,6 +161,7 @@ class Forecastting:
             if (np.min(score) == score[i]):
                 gas.range.iloc[len(gas) - 1] = sample_rate.iloc[2, 2 * i]
                 gas.forecast.iloc[len(gas) - 1] = forecast[i]
+                forecast_res = forecast[i]
         gas = gas.drop(columns=['parent_basefee'])
         if (raw_range <= 508):
             raw_ex = [1, 3, 18]
@@ -292,5 +293,5 @@ class Forecastting:
             axis=1)
         is_increase = L2LR.predict(gas_test)
         proba_positive = L2LR.predict_proba(gas_test)
-        print(is_increase, proba_positive)
-        return is_increase, proba_positive
+        print(is_increase, proba_positive, forecast_res)
+        return is_increase, proba_positive, forecast_res
