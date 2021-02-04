@@ -27,6 +27,7 @@ class Training:
         sample_rate = pd.read_csv(SAMPLE_RATE_FILE)
         print(sample_rate)
         for k in range(10000):
+            print("k: %d" % k)
             for j in range(5):
                 rate = rate_all[j]
                 forecast_l = forecast_l_all[j]
