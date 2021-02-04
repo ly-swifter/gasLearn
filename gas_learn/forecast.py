@@ -40,12 +40,12 @@ class Forecastting:
             list = pd.DataFrame(range(res_range))
             for i in range(res_range):
                 list.iloc[i, 0] *= outter / inner
-            raw_range = round(list.iloc[len(list) - 1, 0])
+            _raw_range = round(list.iloc[len(list) - 1, 0])
             res = np.interp(
                 list.values.reshape(len(list)),
-                pd.DataFrame(range(raw_range)).values.reshape(raw_range),
-                fee.copy().iloc[len(fee) - raw_range:len(fee)].sort_index(
-                    ascending=False).values.reshape(raw_range))
+                pd.DataFrame(range(_raw_range)).values.reshape(_raw_range),
+                fee.copy().iloc[len(fee) - _raw_range:len(fee)].sort_index(
+                    ascending=False).values.reshape(_raw_range))
             res = pd.DataFrame(res).sort_index(ascending=False)
             l = np.polyfit(range(res_range), res.values.reshape(len(res)), 1)
             k_0 = l[0]
@@ -61,12 +61,12 @@ class Forecastting:
             list = pd.DataFrame(range(res_range))
             for i in range(res_range):
                 list.iloc[i, 0] *= outter / inner
-            raw_range = round(list.iloc[len(list) - 1, 0])
+            _raw_range = round(list.iloc[len(list) - 1, 0])
             res = np.interp(
                 list.values.reshape(len(list)),
-                pd.DataFrame(range(raw_range)).values.reshape(raw_range),
-                fee.copy().iloc[len(fee) - raw_range:len(fee)].sort_index(
-                    ascending=False).values.reshape(raw_range))
+                pd.DataFrame(range(_raw_range)).values.reshape(_raw_range),
+                fee.copy().iloc[len(fee) - _raw_range:len(fee)].sort_index(
+                    ascending=False).values.reshape(_raw_range))
             res = pd.DataFrame(res).sort_index(ascending=False)
             l = np.polyfit(range(res_range), res.values.reshape(len(res)), 1)
             k_1 = l[0]
@@ -82,12 +82,12 @@ class Forecastting:
             list = pd.DataFrame(range(res_range))
             for i in range(res_range):
                 list.iloc[i, 0] *= outter / inner
-            raw_range = round(list.iloc[len(list) - 1, 0])
+            _raw_range = round(list.iloc[len(list) - 1, 0])
             res = np.interp(
                 list.values.reshape(len(list)),
-                pd.DataFrame(range(raw_range)).values.reshape(raw_range),
-                fee.copy().iloc[len(fee) - raw_range:len(fee)].sort_index(
-                    ascending=False).values.reshape(raw_range))
+                pd.DataFrame(range(_raw_range)).values.reshape(_raw_range),
+                fee.copy().iloc[len(fee) - _raw_range:len(fee)].sort_index(
+                    ascending=False).values.reshape(_raw_range))
             res = pd.DataFrame(res).sort_index(ascending=False)
             l = np.polyfit(range(res_range), res.values.reshape(len(res)), 1)
             k_2 = l[0]
