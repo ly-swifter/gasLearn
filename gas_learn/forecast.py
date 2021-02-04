@@ -291,6 +291,6 @@ class Forecastting:
              fee_test.reset_index(drop=True)],
             axis=1)
         is_increase = L2LR.predict(gas_test)
-        proba_positive, proba_negtive = L2LR.predict_proba(gas_test)
+        proba_positive = L2LR.predict_proba(gas_test)
         print(is_increase, proba_negtive, proba_positive)
         return is_increase, proba_positive, proba_negtive
