@@ -42,9 +42,9 @@ class ForecastTiggerView(APIView):
             raw_range = 508
 
         fore_obj = Forecastting()
-        is_incrase, proba_positive, proba_negtive = fore_obj.forecast(
+        is_incrase, proba_positive = fore_obj.forecast(
             ORIGINAL_DATA_FILE, raw_range)
-        print(is_incrase, proba_negtive, proba_positive)
+        print(is_incrase, proba_positive)
 
         s_set = ForecastResultSerializer(
             data={
