@@ -47,22 +47,27 @@ class Training:
         gas = gas.drop(columns=['parent_basefee'])
         raw_range = round(np.median(gas.range.iloc[len(gas) - 120:len(gas)]))
         if (raw_range <= 508):
+            raw_range = 508
             raw_ex = [1, 3, 18]
             rate_f = 0
             fee_range = 254
         elif (raw_range <= 1046):
+            raw_range = 1046
             raw_ex = [2, 7, 34]
             rate_f = 1
             fee_range = 440
         elif (raw_range <= 2153):
+            raw_range = 2153
             raw_ex = [4, 14, 76]
             rate_f = 2
             fee_range = 744
         elif (raw_range <= 4431):
+            raw_range = 4431
             raw_ex = [9, 26, 157]
             rate_f = 3
             fee_range = 1242
         elif (raw_range <= 9122):
+            raw_range = 9122
             raw_ex = [18, 63, 323]
             rate_f = 4
             fee_range = 2064
