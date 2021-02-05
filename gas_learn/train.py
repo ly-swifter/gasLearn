@@ -121,6 +121,8 @@ class Training:
         gas = gas.drop(columns=['range'])
         my_scaler = MinMaxScaler(feature_range=(0, 1))
         gas_train = gas.iloc[len(gas) - raw_range:len(gas), :].copy()
+        print('nick')
+        print(raw_range)
         tmp = gas_train.copy()
         tmp = my_scaler.fit_transform(tmp).copy()
         gas_train.loc[:, :] = tmp.copy()
