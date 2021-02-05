@@ -18,7 +18,8 @@ class Forecastting:
         range_forecast = pd.read_csv(R_F)
         gas = pd.read_csv(file_path)
         gas = gas.drop(columns = ['range', 'forecast'])
-        gas = pd.merge(gas, range_forecast, on = 'epoch', how = 'outer').sort_values(by = ['epoch'], ascending=True).fillna(0).iloc[len(gas) - 10000 : len(gas), :]
+        gas = pd.merge(gas, range_forecast, on = 'epoch', how = 'left').sort_values(by = ['epoch'], ascending=True)
+        gas = gas.iloc[len(gas) - 10000 : len(gas), :].fillna(0)
         rate_all = [1.6180339887, 2.058, 2.6180339887, 3.33, 4.236]
         forecast_l_all = [
             157.08203932948422, 135.55, 127.0820393254225, 123.34,
