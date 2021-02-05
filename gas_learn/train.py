@@ -6,7 +6,6 @@ from .consts import L2LR_PICKLE_FILE, SAMPLE_RATE_FILE, TRAIN_RAW_RANG, R_F
 
 class Training:
     def train(self, file_path):
-@@ -26,8 +26,9 @@ def train(self, file_path):
         forecast = [0, 0, 0, 0, 0]
         gas = pd.read_csv(file_path)
         fee = gas.parent_basefee.copy()
