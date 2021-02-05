@@ -248,5 +248,5 @@ class Training:
                 pickle.dump(L2LR, f)
             print("raw_range")
             print("%s" % raw_range)
-            os.environ[TRAIN_RAW_RANG] = raw_range
+            os.environ[TRAIN_RAW_RANG] = str(raw_range)
             return raw_range
