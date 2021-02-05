@@ -34,8 +34,9 @@ class ForecastTiggerView(APIView):
         ForecastTiggerView
         """
 
-        tmpfile = open(TRAIN_RAW_RANG, 'w')
+        tmpfile = open(TRAIN_RAW_RANG, 'r')
         raw_range = tmpfile.read()
+        tmpfile.close()
 
         print('raw_range: %s' % raw_range)
 
