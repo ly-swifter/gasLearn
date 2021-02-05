@@ -10,16 +10,16 @@ from sklearn.preprocessing import MinMaxScaler
 
 from .consts import L2LR_PICKLE_FILE, SAMPLE_RATE_FILE, R_F
 
-
 class Forecastting:
     def forecast(self, file_path, raw_range):
         L2LR = pickle.load(open(L2LR_PICKLE_FILE, 'rb'))
         sample_rate = pd.read_csv(SAMPLE_RATE_FILE)
         range_forecast = pd.read_csv(R_F)
         gas = pd.read_csv(file_path)
-        gas = gas.drop(columns = ['range', 'forecast'])
-        gas = pd.merge(gas, range_forecast, on = 'epoch', how = 'left').sort_values(by = ['epoch'], ascending=True)
-        gas = gas.iloc[len(gas) - 10000 : len(gas), :].fillna(0)
+        gas = gas.drop(columns=['range', 'forecast'])
+        gas = pd.merge(gas, range_forecast, on='epoch',
+                       how='left').sort_values(by=['epoch'], ascending=True)
+        gas = gas.iloc[len(gas) - 10000:len(gas), :].fillna(0)
         rate_all = [1.6180339887, 2.058, 2.6180339887, 3.33, 4.236]
         forecast_l_all = [
             157.08203932948422, 135.55, 127.0820393254225, 123.34,
@@ -168,8 +168,9 @@ class Forecastting:
                 print('nick')
                 print(sample_rate.iloc[2, 2 * i])
                 print(forecast[i])
-                range_forecast = pd.concat([epoch, gas.range, gas.forecast], axis = 1)
-                range_forecast.to_csv(R_F, index = False)
+                range_forecast = pd.concat([epoch, gas.range, gas.forecast],
+                                           axis=1)
+                range_forecast.to_csv(R_F, index=False)
                 forecast_res = forecast[i]
         gas = gas.drop(columns=['parent_basefee'])
         if (raw_range <= 508):
