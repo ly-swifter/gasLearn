@@ -1,7 +1,16 @@
+import pickle
+import os
+
+import pandas as pd
+import numpy as np
+import requests
+
+import datetime
+
+from sklearn.linear_model import LogisticRegression
 from sklearn import preprocessing
 from sklearn.preprocessing import MinMaxScaler
 
-from .consts import L2LR_PICKLE_FILE, SAMPLE_RATE_FILE, TRAIN_RAW_RANG
 from .consts import L2LR_PICKLE_FILE, SAMPLE_RATE_FILE, TRAIN_RAW_RANG, R_F
 
 class Training:
