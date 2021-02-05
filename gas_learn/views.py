@@ -36,8 +36,11 @@ class ForecastTiggerView(APIView):
 
         raw_range = os.environ.get('TRAIN_RAW_RANG')
         print('raw_range: %s' % raw_range)
+        
         if raw_range is None:
             raw_range = 508
+
+        print('raw_range: %s' % raw_range)
 
         fore_obj = Forecastting()
         is_incrase, proba_positive, forecast_res = fore_obj.forecast(
