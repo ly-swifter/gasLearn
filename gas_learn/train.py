@@ -154,7 +154,7 @@ class Training:
             gas_train_ex.reset_index(drop=True)
         ],
                                  axis=0)
-        tar_train = tar.iloc[len(gas) - raw_range:len(gas)].copy()
+        tar_train = tar.iloc[len(gas) - raw_range - 120 : len(gas)].copy()
         tar_train_ex = tar.iloc[:2 * raw_ex[2]].copy()
         for i in range(raw_ex[2]):
             tar_train_ex.iloc[i] = 0
@@ -238,7 +238,7 @@ class Training:
             ],
                                      axis=1)
             gas_train = pd.concat([
-                gas_train.reset_index(drop=True),
+                gas_train.reset_index(drop=True).iloc[: len(gas_train) - 120, :],
                 gas_train_ex.reset_index(drop=True)
             ],
                                   axis=0)
