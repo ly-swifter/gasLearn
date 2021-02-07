@@ -23,7 +23,6 @@ class Training:
         score = [0, 0, 0, 0, 0]
         forecast = [0, 0, 0, 0, 0]
         gas = pd.read_csv(file_path)
-        fee = gas.parent_basefee.copy()
         range_forecast=pd.read_csv(R_F)
         sample_rate = pd.read_csv(SAMPLE_RATE_FILE)
         gas = pd.merge(gas.drop(columns=['range', 'forecast']), range_forecast, on = 'epoch', how = 'left').sort_values(by = ['epoch'], ascending=True)
@@ -110,16 +109,15 @@ class Training:
             for j in range(raw_ex[2] - raw_ex[1], raw_ex[2]):
                 gas_train_ex.iloc[j, i] = gas_train_sort.iloc[len(gas_train) - 1 -
                     round(raw_ex[0] / raw_ex[2] * len(gas_train))]
-        gas_train_ex = pd.concat([gas_train_ex.reset_index(drop=True), gas_train_ex.reset_index(drop=True)], axis=0)
+        gas_train_ex = pd.concat([gas_train_ex.reset_index(drop = True), gas_train_ex.reset_index(drop = True)], axis = 0)
         tar_train = tar.iloc[len(gas) - raw_range  + 120 : len(gas)].copy()
         tar_train_ex = tar.iloc[:2 * raw_ex[2]].copy()
         for i in range(raw_ex[2]):
             tar_train_ex.iloc[i] = 0
         for i in range(raw_ex[2], 2 * raw_ex[2]):
             tar_train_ex.iloc[i] = 1
-        tar_train = pd.concat([tar_train.reset_index(drop=True), tar_train_ex.reset_index(drop=True)], axis=0)
+        tar_train = pd.concat([tar_train.reset_index(drop = True), tar_train_ex.reset_index(drop = True)], axis = 0)
         fee_train_raw = fee.iloc[len(gas) - raw_range : len(gas)].copy()
-        fee_train_sort = fee.iloc[len(gas) - fee_range : len(gas)].copy().sort_values()
         fee_percent = [
             round(0.0296 * fee_range),
             round(0.077448747 * fee_range),
@@ -140,6 +138,7 @@ class Training:
             for j in range(1, 11):
                 fee_train.iloc[i, j] = 0
         for i in range(len(fee_train)):
+            fee_train_sort = fee.iloc[i + 1 - fee_range : i + 1].copy().sort_values()
             if (fee_train.iloc[i, 0] >= fee_train_sort.iloc[fee_percent[8]]):
                 fee_train.iloc[i, 1] = 1
             elif (fee_train.iloc[i, 0] >= fee_train_sort.iloc[fee_percent[7]]):
