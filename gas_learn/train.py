@@ -194,7 +194,6 @@ class Training:
             L2LR.fit(gas_train, tar_train.values.ravel())
             with open(L2LR_PICKLE_FILE, 'wb') as f:
                 pickle.dump(L2LR, f)
-
             tmpfile = open(TRAIN_RAW_RANG, 'w')
             tmpfile.write(str(raw_range))
             tmpfile.close()
