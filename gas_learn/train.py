@@ -118,8 +118,8 @@ class Training:
         for i in range(raw_ex[2], 2 * raw_ex[2]):
             tar_train_ex.iloc[i] = 1
         tar_train = pd.concat([tar_train.reset_index(drop=True), tar_train_ex.reset_index(drop=True)], axis=0)
-        fee_train_raw = fee.iloc[len(gas) - raw_range:len(gas)].copy()
-        fee_train_sort = fee.iloc[len(gas) - fee_range:len(gas)].copy().sort_values()
+        fee_train_raw = fee.iloc[len(gas) - raw_range : len(gas)].copy()
+        fee_train_sort = fee.iloc[len(gas) - fee_range : len(gas)].copy().sort_values()
         fee_percent = [
             round(0.0296 * fee_range),
             round(0.077448747 * fee_range),
