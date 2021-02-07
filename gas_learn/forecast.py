@@ -165,9 +165,6 @@ class Forecastting:
             if (np.min(score) == score[i]):
                 gas.range.iloc[len(gas) - 1] = sample_rate.iloc[2, 2 * i]
                 gas.forecast.iloc[len(gas) - 1] = forecast[i]
-                print('nick')
-                print(sample_rate.iloc[2, 2 * i])
-                print(forecast[i])
                 range_forecast = pd.concat([epoch, gas.range, gas.forecast],
                                            axis=1)
                 range_forecast.to_csv(R_F, index=False)
@@ -198,20 +195,15 @@ class Forecastting:
         gas = pd.concat(
             [gas, (fee.rolling(round(8 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat(
-            [gas, (fee.rolling(round(13 * rate_all[rate_f])).median())],
-            axis=1)
+            [gas, (fee.rolling(round(13 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat(
-            [gas, (fee.rolling(round(21 * rate_all[rate_f])).median())],
-            axis=1)
+            [gas, (fee.rolling(round(21 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat(
-            [gas, (fee.rolling(round(34 * rate_all[rate_f])).median())],
-            axis=1)
+            [gas, (fee.rolling(round(34 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat(
-            [gas, (fee.rolling(round(55 * rate_all[rate_f])).median())],
-            axis=1)
+            [gas, (fee.rolling(round(55 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat(
-            [gas, (fee.rolling(round(89 * rate_all[rate_f])).median())],
-            axis=1)
+            [gas, (fee.rolling(round(89 * rate_all[rate_f])).median())], axis=1)
         gas.block_count = gas.block_count.rolling(120).mean()
         gas.count_block = gas.count_block.rolling(120).mean()
         gas.limit_total_block = gas.limit_total_block.rolling(120).median()
@@ -220,37 +212,30 @@ class Forecastting:
         gas = pd.concat([
             gas,
             gas.block_count.rolling(round(120 * rate_all[rate_f])).mean()
-        ],
-                        axis=1)
+        ], axis=1)
         gas = pd.concat([
             gas,
             gas.count_block.rolling(round(120 * rate_all[rate_f])).mean()
-        ],
-                        axis=1)
+        ], axis=1)
         gas = pd.concat([
             gas,
             gas.limit_total_block.rolling(round(
                 120 * rate_all[rate_f])).median()
-        ],
-                        axis=1)
+        ], axis=1)
         gas = pd.concat([
             gas,
             gas.cap_total_block.rolling(round(
                 120 * rate_all[rate_f])).median()
-        ],
-                        axis=1)
+        ], axis=1)
         gas = pd.concat([
             gas,
             gas.premium_total_block.rolling(round(
                 120 * rate_all[rate_f])).median()
-        ],
-                        axis=1)
+        ], axis=1)
         gas = gas.drop(columns=['range'])
         my_scaler = MinMaxScaler(feature_range=(0, 1))
         gas_test = gas.iloc[len(gas) - raw_range:len(gas), :].copy()
-        tmp = gas_test.copy()
-        tmp = my_scaler.fit_transform(tmp).copy()
-        gas_test.loc[:, :] = tmp.copy()
+        gas_test.loc[:, :] = my_scaler.fit_transform(gas_test)
         gas_test = pd.DataFrame(
             pd.DataFrame(gas_test.iloc[len(gas_test) - 1, :]).values.reshape(
                 1, 19))
@@ -275,7 +260,7 @@ class Forecastting:
         for i in range(1, 11):
             fee_test.iloc[0, i] = 0
         fee_test_sort = fee.iloc[len(gas) -
-                                 fee_range:len(gas)].copy().sort_values()
+                                 fee_range : len(gas)].copy().sort_values()
         if (fee_test.iloc[0, 0] >= fee_test_sort.iloc[fee_percent[8]]):
             fee_test.iloc[0, 1] = 1
         elif (fee_test.iloc[0, 0] >= fee_test_sort.iloc[fee_percent[7]]):
@@ -296,7 +281,7 @@ class Forecastting:
             fee_test.iloc[0, 9] = 1
         else:
             fee_test.iloc[0, 10] = 1
-        fee_test = fee_test.iloc[:, 1:]
+        fee_test = fee_test.iloc[:, 1 :]
         gas_test = pd.concat(
             [gas_test.reset_index(drop=True),
              fee_test.reset_index(drop=True)],
