@@ -8,7 +8,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn import preprocessing
 from sklearn.preprocessing import MinMaxScaler
 
-from .consts import L2LR_PICKLE_FILE, SAMPLE_RATE_FILE, R_F
+from .consts import L2LR_PICKLE_FILE, SAMPLE_RATE_FILE, R_F, R_F_T
 
 class Forecastting:
     def forecast(self, file_path, raw_range):
@@ -167,7 +167,13 @@ class Forecastting:
                 gas.forecast.iloc[len(gas) - 1] = forecast[i]
                 forecast_res = forecast[i]
         range_forecast = pd.concat([epoch, gas.range, gas.forecast], axis=1)
-        range_forecast.to_csv(R_F, index=False)
+        try:
+            range_forecast.to_csv(R_F, index=False)
+        except:
+            range_forecast.to_csv(R_F_T, index=False)
+            if os.path.exists(R_F):
+                os.remove(R_F)
+            os.rename(R_F_T, R_F)
         gas = gas.drop(columns=['parent_basefee'])
         rate_f = 0
         if (raw_range <= 777):
