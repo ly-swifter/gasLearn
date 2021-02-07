@@ -73,7 +73,7 @@ class Training:
             fee_range = 2064
         gas = pd.concat([gas, (fee.rolling(round(5 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat([gas, (fee.rolling(round(8 * rate_all[rate_f])).median())], axis=1)
-        gas = pd.concat(gas, (fee.rolling(round(13 * rate_all[rate_f])).median())], axis=1)
+        gas = pd.concat([gas, (fee.rolling(round(13 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat([gas, (fee.rolling(round(21 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat([gas, (fee.rolling(round(34 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat([gas, (fee.rolling(round(55 * rate_all[rate_f])).median())], axis=1)
@@ -194,6 +194,7 @@ class Training:
             L2LR.fit(gas_train, tar_train.values.ravel())
             with open(L2LR_PICKLE_FILE, 'wb') as f:
                 pickle.dump(L2LR, f)
+
             tmpfile = open(TRAIN_RAW_RANG, 'w')
             tmpfile.write(str(raw_range))
             tmpfile.close()
