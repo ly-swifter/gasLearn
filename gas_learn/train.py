@@ -46,8 +46,8 @@ class Training:
         gas = gas.fillna(0)
         fee = gas.parent_basefee.copy()
         gas = gas.drop(columns=['parent_basefee'])
-        raw_range = round(np.median(gas.range.iloc[len(gas) - 240 - 120 : len(gas) - 240]) + np.median(gas.range.iloc[len(gas) - 240 - 74 : len(gas) - 240]) + np.median(gas.range.iloc[len(gas) - 240 - 46 : len(gas)]) + np.median(gas.range.iloc[len(gas) - 240 - 28 : len(gas)]))
-        raw_range /= 4
+        raw_range = round(np.median(gas.range.iloc[len(gas) - 240 - 120 : len(gas) - 240]) + np.median(gas.range.iloc[len(gas) - 240 - 74 : len(gas) - 240]) + np.median(gas.range.iloc[len(gas) - 240 - 46 : len(gas)]))
+        raw_range /= 3
         if (raw_range <= 777):
             raw_range = 508
             raw_ex = [1, 3, 18]
