@@ -140,32 +140,23 @@ class Training:
             for j in range(1, 11):
                 fee_train.iloc[i, j] = 0
         for i in range(len(fee_train)):
-            if (fee_train.iloc[i, 0] >=
-                    fee_train_sort.iloc[fee_percent[8]]):
+            if (fee_train.iloc[i, 0] >= fee_train_sort.iloc[fee_percent[8]]):
                     fee_train.iloc[i, 1] = 1
-                elif (fee_train.iloc[i, 0] >=
-                    fee_train_sort.iloc[fee_percent[7]]):
+                elif (fee_train.iloc[i, 0] >= fee_train_sort.iloc[fee_percent[7]]):
                     fee_train.iloc[i, 2] = 1
-                elif (fee_train.iloc[i, 0] >=
-                    fee_train_sort.iloc[fee_percent[6]]):
+                elif (fee_train.iloc[i, 0] >= fee_train_sort.iloc[fee_percent[6]]):
                     fee_train.iloc[i, 3] = 1
-                elif (fee_train.iloc[i, 0] >=
-                    fee_train_sort.iloc[fee_percent[5]]):
+                elif (fee_train.iloc[i, 0] >= fee_train_sort.iloc[fee_percent[5]]):
                     fee_train.iloc[i, 4] = 1
-                elif (fee_train.iloc[i, 0] >=
-                    fee_train_sort.iloc[fee_percent[4]]):
+                elif (fee_train.iloc[i, 0] >= fee_train_sort.iloc[fee_percent[4]]):
                     fee_train.iloc[i, 5] = 1
-                elif (fee_train.iloc[i, 0] >=
-                    fee_train_sort.iloc[fee_percent[3]]):
+                elif (fee_train.iloc[i, 0] >= fee_train_sort.iloc[fee_percent[3]]):
                     fee_train.iloc[i, 6] = 1
-                elif (fee_train.iloc[i, 0] >=
-                    fee_train_sort.iloc[fee_percent[2]]):
+                elif (fee_train.iloc[i, 0] >= fee_train_sort.iloc[fee_percent[2]]):
                     fee_train.iloc[i, 7] = 1
-                elif (fee_train.iloc[i, 0] >=
-                    fee_train_sort.iloc[fee_percent[1]]):
+                elif (fee_train.iloc[i, 0] >= fee_train_sort.iloc[fee_percent[1]]):
                     fee_train.iloc[i, 8] = 1
-                elif (fee_train.iloc[i, 0] >=
-                    fee_train_sort.iloc[fee_percent[0]]):
+                elif (fee_train.iloc[i, 0] >= fee_train_sort.iloc[fee_percent[0]]):
                     fee_train.iloc[i, 9] = 1
                 else:
                     fee_train.iloc[i, 10] = 1
