@@ -46,18 +46,19 @@ class Training:
         gas = gas.fillna(0)
         fee = gas.parent_basefee.copy()
         gas = gas.drop(columns=['parent_basefee'])
-        raw_range = round(np.median(gas.range.iloc[len(gas) - 120 : len(gas)]))
-        if (raw_range <= 508):
+        raw_range = round(np.median(gas.range.iloc[len(gas) - 120 : len(gas)]) + np.median(gas.range.iloc[len(gas) - 74 : len(gas)]) + np.median(gas.range.iloc[len(gas) - 46 : len(gas)]))
+        raw_range /= 3
+        if (raw_range <= 777):
             raw_range = 508
             raw_ex = [1, 3, 18]
             rate_f = 0
             fee_range = 254
-        elif (raw_range <= 1046):
+        elif (raw_range <= 1600):
             raw_range = 1046
             raw_ex = [2, 7, 34]
             rate_f = 1
             fee_range = 440
-        elif (raw_range <= 2153):
+        elif (raw_range <= 3292):
             raw_range = 2153
             raw_ex = [4, 14, 76]
             rate_f = 2
@@ -67,11 +68,12 @@ class Training:
             raw_ex = [9, 26, 157]
             rate_f = 3
             fee_range = 1242
-        elif (raw_range <= 9122):
+        elif (raw_range <= 6777):
             raw_range = 9122
             raw_ex = [18, 63, 323]
             rate_f = 4
             fee_range = 2064
+        raw_range=round(raw_range)
         gas = pd.concat([gas, (fee.rolling(round(5 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat([gas, (fee.rolling(round(8 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat([gas, (fee.rolling(round(13 * rate_all[rate_f])).median())], axis=1)
@@ -119,7 +121,7 @@ class Training:
         for i in range(raw_ex[2], 2 * raw_ex[2]):
             tar_train_ex.iloc[i] = 1
         tar_train = pd.concat([tar_train.reset_index(drop = True), tar_train_ex.reset_index(drop = True)], axis = 0)
-        fee_train_raw = fee.iloc[len(gas) - raw_range : len(gas)].copy()
+        fee_train_raw = fee.iloc[len(fee) - raw_range : len(fee)].copy()
         fee_percent = [
             round(0.0296 * fee_range),
             round(0.077448747 * fee_range),
