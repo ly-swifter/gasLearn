@@ -74,6 +74,8 @@ class Training:
             rate_f = 4
             fee_range = 2064
         raw_range=round(raw_range)
+        print('return_raw_range')
+        print(raw_range)
         gas = pd.concat([gas, (fee.rolling(round(5 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat([gas, (fee.rolling(round(8 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat([gas, (fee.rolling(round(13 * rate_all[rate_f])).median())], axis=1)
