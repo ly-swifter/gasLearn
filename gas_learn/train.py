@@ -71,58 +71,23 @@ class Training:
             raw_ex = [18, 63, 323]
             rate_f = 4
             fee_range = 2064
-        gas = pd.concat(
-            [gas, (fee.rolling(round(5 * rate_all[rate_f])).median())], axis=1)
-        gas = pd.concat(
-            [gas, (fee.rolling(round(8 * rate_all[rate_f])).median())], axis=1)
-        gas = pd.concat(
-            [gas, (fee.rolling(round(13 * rate_all[rate_f])).median())],
-            axis=1)
-        gas = pd.concat(
-            [gas, (fee.rolling(round(21 * rate_all[rate_f])).median())],
-            axis=1)
-        gas = pd.concat(
-            [gas, (fee.rolling(round(34 * rate_all[rate_f])).median())],
-            axis=1)
-        gas = pd.concat(
-            [gas, (fee.rolling(round(55 * rate_all[rate_f])).median())],
-            axis=1)
-        gas = pd.concat(
-            [gas, (fee.rolling(round(89 * rate_all[rate_f])).median())],
-            axis=1)
+        gas = pd.concat([gas, (fee.rolling(round(5 * rate_all[rate_f])).median())], axis=1)
+        gas = pd.concat([gas, (fee.rolling(round(8 * rate_all[rate_f])).median())], axis=1)
+        gas = pd.concat(gas, (fee.rolling(round(13 * rate_all[rate_f])).median())], axis=1)
+        gas = pd.concat([gas, (fee.rolling(round(21 * rate_all[rate_f])).median())], axis=1)
+        gas = pd.concat([gas, (fee.rolling(round(34 * rate_all[rate_f])).median())], axis=1)
+        gas = pd.concat([gas, (fee.rolling(round(55 * rate_all[rate_f])).median())], axis=1)
+        gas = pd.concat([gas, (fee.rolling(round(89 * rate_all[rate_f])).median())], axis=1)
         gas.block_count = gas.block_count.rolling(120).mean()
         gas.count_block = gas.count_block.rolling(120).mean()
         gas.limit_total_block = gas.limit_total_block.rolling(120).median()
         gas.cap_total_block = gas.cap_total_block.rolling(120).median()
         gas.premium_total_block = gas.premium_total_block.rolling(120).median()
-        gas = pd.concat([
-            gas,
-            gas.block_count.rolling(round(120 * rate_all[rate_f])).mean()
-        ],
-                        axis=1)
-        gas = pd.concat([
-            gas,
-            gas.count_block.rolling(round(120 * rate_all[rate_f])).mean()
-        ],
-                        axis=1)
-        gas = pd.concat([
-            gas,
-            gas.limit_total_block.rolling(round(
-                120 * rate_all[rate_f])).median()
-        ],
-                        axis=1)
-        gas = pd.concat([
-            gas,
-            gas.cap_total_block.rolling(round(
-                120 * rate_all[rate_f])).median()
-        ],
-                        axis=1)
-        gas = pd.concat([
-            gas,
-            gas.premium_total_block.rolling(round(
-                120 * rate_all[rate_f])).median()
-        ],
-                        axis=1)
+        gas = pd.concat([gas, gas.block_count.rolling(round(120 * rate_all[rate_f])).mean()], axis=1)
+        gas = pd.concat([gas, gas.count_block.rolling(round(120 * rate_all[rate_f])).mean()], axis=1)
+        gas = pd.concat([gas, gas.limit_total_block.rolling(round(120 * rate_all[rate_f])).median()], axis=1)
+        gas = pd.concat([gas, gas.cap_total_block.rolling(round(120 * rate_all[rate_f])).median()], axis=1)
+        gas = pd.concat([gas, gas.premium_total_block.rolling(round(120 * rate_all[rate_f])).median()], axis=1)
         gas = gas.drop(columns=['range'])
         my_scaler = MinMaxScaler(feature_range=(0, 1))
         gas_train = gas.iloc[len(gas) - raw_range:len(gas), :].copy()
@@ -140,32 +105,21 @@ class Training:
                 gas_train_ex.iloc[j, i] = gas_train_sort.iloc[round(
                     len(gas_train) / 2)]
             for j in range(round(raw_ex[2] / 2), raw_ex[2] - raw_ex[1]):
-                gas_train_ex.iloc[j, i] = gas_train_sort.iloc[
-                    len(gas_train) - 1 -
+                gas_train_ex.iloc[j, i] = gas_train_sort.iloc[len(gas_train) - 1 -
                     round(raw_ex[1] / raw_ex[2] * len(gas_train))]
             for j in range(raw_ex[2] - raw_ex[1], raw_ex[2]):
-                gas_train_ex.iloc[j, i] = gas_train_sort.iloc[
-                    len(gas_train) - 1 -
+                gas_train_ex.iloc[j, i] = gas_train_sort.iloc[len(gas_train) - 1 -
                     round(raw_ex[0] / raw_ex[2] * len(gas_train))]
-        gas_train_ex = pd.concat([
-            gas_train_ex.reset_index(drop=True),
-            gas_train_ex.reset_index(drop=True)
-        ],
-                                 axis=0)
+        gas_train_ex = pd.concat([gas_train_ex.reset_index(drop=True), gas_train_ex.reset_index(drop=True)], axis=0)
         tar_train = tar.iloc[len(gas) - raw_range  + 120 : len(gas)].copy()
         tar_train_ex = tar.iloc[:2 * raw_ex[2]].copy()
         for i in range(raw_ex[2]):
             tar_train_ex.iloc[i] = 0
         for i in range(raw_ex[2], 2 * raw_ex[2]):
             tar_train_ex.iloc[i] = 1
-        tar_train = pd.concat([
-            tar_train.reset_index(drop=True),
-            tar_train_ex.reset_index(drop=True)
-        ],
-                              axis=0)
+        tar_train = pd.concat([tar_train.reset_index(drop=True), tar_train_ex.reset_index(drop=True)], axis=0)
         fee_train_raw = fee.iloc[len(gas) - raw_range:len(gas)].copy()
-        fee_train_sort = fee.iloc[len(gas) -
-                                  fee_range:len(gas)].copy().sort_values()
+        fee_train_sort = fee.iloc[len(gas) - fee_range:len(gas)].copy().sort_values()
         fee_percent = [
             round(0.0296 * fee_range),
             round(0.077448747 * fee_range),
@@ -181,14 +135,13 @@ class Training:
             fee_train_raw, fee_train_raw, fee_train_raw, fee_train_raw,
             fee_train_raw, fee_train_raw, fee_train_raw, fee_train_raw,
             fee_train_raw, fee_train_raw, fee_train_raw
-        ],
-                              axis=1)
+        ], axis=1)
         for i in range(len(fee_train)):
             for j in range(1, 11):
                 fee_train.iloc[i, j] = 0
-            for i in range(len(fee_train)):
-                if (fee_train.iloc[i, 0] >=
-                        fee_train_sort.iloc[fee_percent[8]]):
+        for i in range(len(fee_train)):
+            if (fee_train.iloc[i, 0] >=
+                    fee_train_sort.iloc[fee_percent[8]]):
                     fee_train.iloc[i, 1] = 1
                 elif (fee_train.iloc[i, 0] >=
                       fee_train_sort.iloc[fee_percent[7]]):
@@ -220,8 +173,7 @@ class Training:
             gas_train = pd.concat([
                 gas_train.reset_index(drop=True),
                 fee_train.reset_index(drop=True)
-            ],
-                                  axis=1)
+            ], axis=1)
             fee_train = fee_train.iloc[:2 * raw_ex[2], :]
             for i in range(2 * raw_ex[2]):
                 for j in range(10):
@@ -233,13 +185,11 @@ class Training:
             gas_train_ex = pd.concat([
                 gas_train_ex.reset_index(drop=True),
                 fee_train.reset_index(drop=True)
-            ],
-                                     axis=1)
+            ], axis=1)
             gas_train = pd.concat([
                 gas_train.reset_index(drop=True).iloc[: len(gas_train) - 120, :],
                 gas_train_ex.reset_index(drop=True)
-            ],
-                                  axis=0)
+            ], axis=0)
             L2LR = LogisticRegression(penalty='l2', C=0.618, max_iter=900000)
             L2LR.fit(gas_train, tar_train.values.ravel())
             with open(L2LR_PICKLE_FILE, 'wb') as f:
