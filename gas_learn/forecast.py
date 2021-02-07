@@ -165,10 +165,9 @@ class Forecastting:
             if (np.min(score) == score[i]):
                 gas.range.iloc[len(gas) - 1] = sample_rate.iloc[2, 2 * i]
                 gas.forecast.iloc[len(gas) - 1] = forecast[i]
-                range_forecast = pd.concat([epoch, gas.range, gas.forecast],
-                                           axis=1)
-                range_forecast.to_csv(R_F, index=False)
                 forecast_res = forecast[i]
+        range_forecast = pd.concat([epoch, gas.range, gas.forecast], axis=1)
+        range_forecast.to_csv(R_F, index=False)
         gas = gas.drop(columns=['parent_basefee'])
         if (raw_range <= 508):
             raw_ex = [1, 3, 18]
