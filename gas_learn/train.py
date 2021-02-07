@@ -27,7 +27,7 @@ class Training:
         range_forecast=pd.read_csv(R_F)
         sample_rate = pd.read_csv(SAMPLE_RATE_FILE)
         gas = pd.merge(gas.drop(columns=['range', 'forecast']), range_forecast, on = 'epoch', how = 'left').sort_values(by = ['epoch'], ascending=True)
-        gas = gas.iloc[len(gas) - 10000:len(gas), :].fillna(0)
+        gas = gas.iloc[len(gas) - 10000 : len(gas), :].fillna(0)
         for i in range(len(gas)):
             if (gas.iloc[i, 0]):
                 gas.iloc[i, 0] = 1
@@ -37,7 +37,7 @@ class Training:
         tar = pd.DataFrame(gas.parent_basefee)
         tar.insert(1, 'tar', 0)
         for i in range(len(tar) - 120):
-            if (np.median(tar.iloc[i:i + 120, 0]) > tar.iloc[i, 0]):
+            if (np.median(tar.iloc[i : i + 120, 0]) > tar.iloc[i, 0]):
                 tar.iloc[i, 1] = 1
             else:
                 tar.iloc[i, 1] = 0
@@ -45,7 +45,7 @@ class Training:
         gas = gas.fillna(0)
         fee = gas.parent_basefee.copy()
         gas = gas.drop(columns=['parent_basefee'])
-        raw_range = round(np.median(gas.range.iloc[len(gas) - 120:len(gas)]))
+        raw_range = round(np.median(gas.range.iloc[len(gas) - 120 : len(gas)]))
         if (raw_range <= 508):
             raw_range = 508
             raw_ex = [1, 3, 18]
