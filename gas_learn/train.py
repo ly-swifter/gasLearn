@@ -23,6 +23,8 @@ class Training:
         score = [0, 0, 0, 0, 0]
         forecast = [0, 0, 0, 0, 0]
         gas = pd.read_csv(file_path)
+        fee_all = gas.parent_basefee.copy()
+        fee_all = fee_all.iloc[len(fee_all) - 12000 : len(fee_all)]
         range_forecast=pd.read_csv(R_F)
         sample_rate = pd.read_csv(SAMPLE_RATE_FILE)
         gas = pd.merge(gas.drop(columns=['range', 'forecast']), range_forecast, on = 'epoch', how = 'left').sort_values(by = ['epoch'], ascending=True)
@@ -138,7 +140,7 @@ class Training:
             for j in range(1, 11):
                 fee_train.iloc[i, j] = 0
         for i in range(len(fee_train)):
-            fee_train_sort = fee.iloc[i + 1 - fee_range : i + 1].copy().sort_values()
+            fee_train_sort = fee_all.iloc[12001 - len(fee_train) + i - fee_range : 12001 - len(fee_train) + i].copy().sort_values()
             if (fee_train.iloc[i, 0] >= fee_train_sort.iloc[fee_percent[8]]):
                 fee_train.iloc[i, 1] = 1
             elif (fee_train.iloc[i, 0] >= fee_train_sort.iloc[fee_percent[7]]):
