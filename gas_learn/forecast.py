@@ -169,26 +169,33 @@ class Forecastting:
         range_forecast = pd.concat([epoch, gas.range, gas.forecast], axis=1)
         range_forecast.to_csv(R_F, index=False)
         gas = gas.drop(columns=['parent_basefee'])
-        if (raw_range <= 508):
+        if (raw_range <= 777):
+            raw_range = 508
             raw_ex = [1, 3, 18]
             rate_f = 0
             fee_range = 254
-        elif (raw_range <= 1046):
+        elif (raw_range <= 1600):
+            raw_range = 1046
             raw_ex = [2, 7, 34]
             rate_f = 1
             fee_range = 440
-        elif (raw_range <= 2153):
+        elif (raw_range <= 3292):
+            raw_range = 2153
             raw_ex = [4, 14, 76]
             rate_f = 2
             fee_range = 744
         elif (raw_range <= 4431):
+            raw_range = 4431
             raw_ex = [9, 26, 157]
             rate_f = 3
             fee_range = 1242
-        elif (raw_range <= 9122):
+        elif (raw_range <= 6777):
+            raw_range = 9122
             raw_ex = [18, 63, 323]
             rate_f = 4
             fee_range = 2064
+        print('nick_raw_range')
+        print(raw_range)
         gas = pd.concat(
             [gas, (fee.rolling(round(5 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat(
@@ -233,7 +240,7 @@ class Forecastting:
         ], axis=1)
         gas = gas.drop(columns=['range'])
         my_scaler = MinMaxScaler(feature_range=(0, 1))
-        gas_test = gas.iloc[len(gas) - raw_range:len(gas), :].copy()
+        gas_test = gas.iloc[len(gas) - raw_range : len(gas), :].copy()
         gas_test.loc[:, :] = my_scaler.fit_transform(gas_test)
         gas_test = pd.DataFrame(
             pd.DataFrame(gas_test.iloc[len(gas_test) - 1, :]).values.reshape(
