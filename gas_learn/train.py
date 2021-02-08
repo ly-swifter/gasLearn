@@ -25,7 +25,14 @@ class Training:
         gas = pd.read_csv(file_path)
         fee_all = gas.parent_basefee.copy()
         fee_all = fee_all.iloc[len(fee_all) - 12000 : len(fee_all)]
-        range_forecast=pd.read_csv(R_F)
+        try:
+            range_forecast = pd.read_csv(R_F)
+        except:
+            print('load_nick_csv_err')
+            try:
+                range_forecast = pd.read_csv(R_F_T)
+            except:
+                print('load_nick_csv_t_err')
         sample_rate = pd.read_csv(SAMPLE_RATE_FILE)
         gas = pd.merge(gas.drop(columns=['range', 'forecast']), range_forecast, on = 'epoch', how = 'left').sort_values(by = ['epoch'], ascending=True)
         gas = gas.iloc[len(gas) - 10000 : len(gas), :].fillna(0)
