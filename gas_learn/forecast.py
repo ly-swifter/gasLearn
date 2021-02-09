@@ -14,7 +14,14 @@ class Forecastting:
     def forecast(self, file_path, raw_range):
         L2LR = pickle.load(open(L2LR_PICKLE_FILE, 'rb'))
         sample_rate = pd.read_csv(SAMPLE_RATE_FILE)
-        range_forecast = pd.read_csv(R_F)
+        try:
+            range_forecast = pd.read_csv(R_F)
+        except:
+            print('load_nick_csv_err')
+            try:
+                range_forecast = pd.read_csv(R_F_T)
+            except:
+                print('load_nick_csv_t_err')
         gas = pd.read_csv(file_path)
         gas = gas.drop(columns=['range', 'forecast'])
         gas = pd.merge(gas, range_forecast, on='epoch',
@@ -168,8 +175,9 @@ class Forecastting:
                 forecast_res = forecast[i]
         range_forecast = pd.concat([epoch, gas.range, gas.forecast], axis=1)
         try:
-            range_forecast.to_csv(R_F, index=False)
+            range_forecast.to_csv(R_F, index = False)
         except:
+            print('save_nick _csv_err')
             range_forecast.to_csv(R_F_T, index=False)
             if os.path.exists(R_F):
                 os.remove(R_F)
