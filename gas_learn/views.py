@@ -62,6 +62,10 @@ class ForecastTiggerView(APIView):
         if is_incrase[0] > 0:
             is_pos = True
 
+        probb = proba_positive[0][0]
+        if is_pos == True:
+            probb = proba_positive[0][1]
+
         retest_set = TrainingBlockModel.objects.all().order_by('-epoch')[:120]
 
         basefee_median_set = []
@@ -82,7 +86,7 @@ class ForecastTiggerView(APIView):
                 "parent_basefee": p_base,
                 "delta": forecast_res,
                 "isPostive": is_pos,
-                "delta_proba": proba_positive[0][0],
+                "delta_proba": probb,
                 "prodict_median": forecast_res + p_base,
                 "retest_median": retest_median,
             })
