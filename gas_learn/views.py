@@ -73,14 +73,17 @@ class ForecastTiggerView(APIView):
 
         retest_median = np.median(basefee_median_set)
 
+        p_base = quest_data['parent_basefee']
+        print(type(p_base), type(forecast_res))
+
         s_set = ForecastResultSerializer(
             data={
                 "epoch": quest_data['epoch'],
-                "parent_basefee": quest_data['parent_basefee'],
+                "parent_basefee": p_base,
                 "delta": forecast_res,
                 "isPostive": is_pos,
                 "delta_proba": proba_positive[0][0],
-                "prodict_median": forecast_res + quest_data['parent_basefee'],
+                "prodict_median": forecast_res + p_base,
                 "retest_median": retest_median,
             })
 
