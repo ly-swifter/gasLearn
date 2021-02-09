@@ -182,13 +182,14 @@ class ForecastDataModel(models.Model):
         verbose_name = 'ForecastDataModel'
         verbose_name_plural = 'ForecastDataModels'
 
-
 class ForecastResultModel(models.Model):
     epoch = models.IntegerField(unique=True)
     parent_basefee = models.BigIntegerField()
     delta = models.FloatField(default=0)
     isPostive = models.BooleanField(default=True)
     delta_proba = models.FloatField(default=0)
+    prodict_median = models.FloatField(default=0)
+    retest_median = models.FloatField(default=0)
 
     def __str__(self):
         return format(self.epoch)
@@ -198,7 +199,6 @@ class ForecastResultModel(models.Model):
         managed = True
         verbose_name = 'ForecastResultModel'
         verbose_name_plural = 'ForecastResultModels'
-
 
 class ForecastTiggerModel(models.Model):
     epoch = models.IntegerField(unique=True)

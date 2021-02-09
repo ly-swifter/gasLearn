@@ -2,6 +2,7 @@ import os
 from subprocess import call
 
 import pandas as pd
+import numpy as np
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -34,6 +35,8 @@ class ForecastTiggerView(APIView):
         ForecastTiggerView
         """
 
+        quest_data = request.data
+
         tmpfile = open(TRAIN_RAW_RANG, 'r')
         raw_range = tmpfile.read()
         tmpfile.close()
@@ -48,6 +51,7 @@ class ForecastTiggerView(APIView):
         fore_obj = Forecastting()
         is_incrase, proba_positive, forecast_res = fore_obj.forecast(
             ORIGINAL_DATA_FILE, int(raw_range))
+
         print(is_incrase, proba_positive, forecast_res)
         print(type(forecast_res), type(proba_positive[0][0]),
               type(is_incrase[0]))
@@ -56,13 +60,21 @@ class ForecastTiggerView(APIView):
         if is_incrase[0] > 0:
             is_pos = True
 
+        retest_set = TrainingBlockModel.objects.all().reverse()[:120]
+        print(type(retest_set))
+        print(retest_set)
+
+        retest_set_median = np.median(retest_set)
+
         s_set = ForecastResultSerializer(
             data={
-                "epoch": request.data,
-                "parent_basefee": 0,
+                "epoch": quest_data.epoch,
+                "parent_basefee": quest_data.basefee,
                 "delta": forecast_res,
                 "isPostive": is_pos,
                 "delta_proba": proba_positive[0][0],
+                "prodict_median": forecast_res + quest_data.basefee,
+                "retest_median": retest_set_median,
             })
 
         print('s_set: %s' % s_set)
@@ -72,7 +84,6 @@ class ForecastTiggerView(APIView):
             s_set.save()
 
         return Response(status=status.HTTP_200_OK)
-
 
 class ForecastDataView(generics.ListCreateAPIView):
     """
