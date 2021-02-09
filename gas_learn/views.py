@@ -62,7 +62,7 @@ class ForecastTiggerView(APIView):
         if is_incrase[0] > 0:
             is_pos = True
 
-        retest_set = TrainingBlockModel.objects.reverse()[:120]
+        retest_set = TrainingBlockModel.objects.all().order_by('-epoch')[:120]
 
         basefee_median_set = []
         for va_val in retest_set:
