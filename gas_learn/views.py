@@ -74,9 +74,12 @@ class ForecastTiggerView(APIView):
         retest_median = np.median(basefee_median_set)
 
         p_base = quest_data['parent_basefee']
-        np_p_base = p_base.astype(np.float)
 
-        print(type(p_base), type(forecast_res), type(np_p_base))
+        base_arr = np.fromstring(quest_data['parent_basefee'], dtype=float)
+
+        np_p_base = base_arr.astype(np.float)
+
+        print(type(p_base), type(base_arr), type(forecast_res), type(np_p_base))
 
         s_set = ForecastResultSerializer(
             data={
