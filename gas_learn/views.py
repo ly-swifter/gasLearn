@@ -61,10 +61,15 @@ class ForecastTiggerView(APIView):
             is_pos = True
 
         retest_set = TrainingBlockModel.objects.all().reverse()[:120]
-        print(type(retest_set))
-        print(retest_set)
 
-        retest_set_median = np.median(retest_set)
+        basefee_median_set = []
+        for va_val in retest_set:
+            basefee_median_set.append(va_val.parent_basefee)
+
+        print(type(basefee_median_set))
+        print(basefee_median_set)
+
+        retest_median = np.median(basefee_median_set)
 
         s_set = ForecastResultSerializer(
             data={
@@ -74,7 +79,7 @@ class ForecastTiggerView(APIView):
                 "isPostive": is_pos,
                 "delta_proba": proba_positive[0][0],
                 "prodict_median": forecast_res + quest_data.basefee,
-                "retest_median": retest_set_median,
+                "retest_median": retest_median,
             })
 
         print('s_set: %s' % s_set)
