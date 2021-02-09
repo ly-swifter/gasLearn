@@ -76,7 +76,7 @@ class ForecastDataModelAdmin(admin.ModelAdmin):
 
 @admin.register(ForecastResultModel)
 class ForecastResultModelAdmin(admin.ModelAdmin):
-    list_display = ("epoch", "isPostive", "delta_proba", "delta", "parent_basefee", "prodict_median", "retest_median")
+    list_display = ("epoch", "is_positive", "probability", "delta", "parent_basefee", "forecast_median", "retest_median")
     search_fields = list_display
     list_filter = ("isPostive",)
 
