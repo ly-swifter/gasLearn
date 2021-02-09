@@ -23,6 +23,9 @@ class Training:
         score = [0, 0, 0, 0, 0]
         forecast = [0, 0, 0, 0, 0]
         gas = pd.read_csv(file_path)
+        if (gas.parent_basefee.iloc[len(gas) - 1] == 0):
+             if (gas.parent_basefee.iloc[len(gas) - 2] == 0):
+                print('lost_input_data')
         fee_all = gas.parent_basefee.copy()
         fee_all = fee_all.iloc[len(fee_all) - 12000 : len(fee_all)]
         try:
@@ -33,6 +36,9 @@ class Training:
                 range_forecast = pd.read_csv(R_F_T)
             except:
                 print('load_nick_csv_t_err')
+        if (range_forecast.range.iloc[len(range_forecast) - 1] == 0):
+             if (range_forecast.range.iloc[len(range_forecast) - 2] == 0):
+                range_forecast = pd.read_csv(R_F_T)
         sample_rate = pd.read_csv(SAMPLE_RATE_FILE)
         gas = pd.merge(gas.drop(columns=['range', 'forecast']), range_forecast, on = 'epoch', how = 'left').sort_values(by = ['epoch'], ascending=True)
         gas = gas.iloc[len(gas) - 10000 : len(gas), :].fillna(0)
