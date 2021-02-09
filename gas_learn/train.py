@@ -123,10 +123,10 @@ class Training:
                     ((raw_ex[1] + raw_ex[0]) / 2 ) / raw_ex[2] * len(gas_train))]
             for j in range(raw_ex[1], round(raw_ex[2] / 2)):
                 gas_train_ex.iloc[j, i] = gas_train_sort.iloc[round(
-                    (raw_ex[2] / 2 - 1 + raw_ex[1]) / 2) * len(gas_train))]
+                    (raw_ex[2] / 2 - 1 + raw_ex[1])  / 2 * len(gas_train))]
             for j in range(round(raw_ex[2] / 2), raw_ex[2] - raw_ex[1]):
                 gas_train_ex.iloc[j, i] = gas_train_sort.iloc[len(gas_train) - 1 - round(
-                    (raw_ex[2] / 2 - 1 + raw_ex[1]) / 2) * len(gas_train))]
+                    (raw_ex[2] / 2 - 1 + raw_ex[1])  / 2 * len(gas_train))]
             for j in range(raw_ex[2] - raw_ex[1], raw_ex[2] - raw_ex[0]):
                 gas_train_ex.iloc[j, i] = gas_train_sort.iloc[len(gas_train) - 1 - round(
                     ((raw_ex[1] + raw_ex[0]) / 2 ) / raw_ex[2] * len(gas_train))]
