@@ -10,6 +10,7 @@ from sklearn.preprocessing import MinMaxScaler
 
 from .consts import L2LR_PICKLE_FILE, SAMPLE_RATE_FILE, R_F, R_F_T
 
+
 class Forecastting:
     def forecast(self, file_path, raw_range):
         L2LR = pickle.load(open(L2LR_PICKLE_FILE, 'rb'))
@@ -23,11 +24,11 @@ class Forecastting:
             except:
                 print('load_nick_csv_t_err')
         if (range_forecast.range.iloc[len(range_forecast) - 1] == 0):
-             if (range_forecast.range.iloc[len(range_forecast) - 2] == 0):
+            if (range_forecast.range.iloc[len(range_forecast) - 2] == 0):
                 range_forecast = pd.read_csv(R_F_T)
         gas = pd.read_csv(file_path)
         if (gas.parent_basefee.iloc[len(gas) - 1] == 0):
-             if (gas.parent_basefee.iloc[len(gas) - 2] == 0):
+            if (gas.parent_basefee.iloc[len(gas) - 2] == 0):
                 print('lost_input_data')
         gas = gas.drop(columns=['range', 'forecast'])
         gas = pd.merge(gas, range_forecast, on='epoch',
@@ -181,43 +182,43 @@ class Forecastting:
                 forecast_res = forecast[i]
         range_forecast = pd.concat([epoch, gas.range, gas.forecast], axis=1)
         if (range_forecast.range.iloc[len(range_forecast) - 1] == 0):
-             if (range_forecast.range.iloc[len(range_forecast) - 2] == 0):
+            if (range_forecast.range.iloc[len(range_forecast) - 2] == 0):
                 print('lost_output_data')
         try:
-            range_forecast.to_csv(R_F, index = False)
+            range_forecast.to_csv(R_F, index=False)
         except:
             print('save_nick _csv_err')
         try:
-            range_forecast.to_csv(R_F_T, index = False)
+            range_forecast.to_csv(R_F_T, index=False)
         except:
             print('save_nick _csv_t_err')
         gas = gas.drop(columns=['parent_basefee'])
         rate_f = 0
         if (raw_range <= 777):
-	        raw_range = 508
-	        raw_ex = [1, 3, 18]
-	        rate_f = 0
-	        fee_range = 254
+            raw_range = 508
+            raw_ex = [1, 3, 18]
+            rate_f = 0
+            fee_range = 254
         elif (raw_range <= 1600):
-	        raw_range = 1046
-	        raw_ex = [2, 7, 34]
-	        rate_f = 1
-	        fee_range = 440
+            raw_range = 1046
+            raw_ex = [2, 7, 34]
+            rate_f = 1
+            fee_range = 440
         elif (raw_range <= 3292):
-	        raw_range = 2153
-	        raw_ex = [4, 14, 76]
-	        rate_f = 2
-	        fee_range = 744
+            raw_range = 2153
+            raw_ex = [4, 14, 76]
+            rate_f = 2
+            fee_range = 744
         elif (raw_range <= 6777):
-	        raw_range = 4431
-	        raw_ex = [9, 26, 157]
-	        rate_f = 3
-	        fee_range = 1242
+            raw_range = 4431
+            raw_ex = [9, 26, 157]
+            rate_f = 3
+            fee_range = 1242
         else:
-	        raw_range = 9122
-	        raw_ex = [18, 63, 323]
-	        rate_f = 4
-	        fee_range = 2064
+            raw_range = 9122
+            raw_ex = [18, 63, 323]
+            rate_f = 4
+            fee_range = 2064
         print('nick_raw_range')
         print(raw_range)
         gas = pd.concat(
@@ -225,15 +226,20 @@ class Forecastting:
         gas = pd.concat(
             [gas, (fee.rolling(round(8 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat(
-            [gas, (fee.rolling(round(13 * rate_all[rate_f])).median())], axis=1)
+            [gas, (fee.rolling(round(13 * rate_all[rate_f])).median())],
+            axis=1)
         gas = pd.concat(
-            [gas, (fee.rolling(round(21 * rate_all[rate_f])).median())], axis=1)
+            [gas, (fee.rolling(round(21 * rate_all[rate_f])).median())],
+            axis=1)
         gas = pd.concat(
-            [gas, (fee.rolling(round(34 * rate_all[rate_f])).median())], axis=1)
+            [gas, (fee.rolling(round(34 * rate_all[rate_f])).median())],
+            axis=1)
         gas = pd.concat(
-            [gas, (fee.rolling(round(55 * rate_all[rate_f])).median())], axis=1)
+            [gas, (fee.rolling(round(55 * rate_all[rate_f])).median())],
+            axis=1)
         gas = pd.concat(
-            [gas, (fee.rolling(round(89 * rate_all[rate_f])).median())], axis=1)
+            [gas, (fee.rolling(round(89 * rate_all[rate_f])).median())],
+            axis=1)
         gas.block_count = gas.block_count.rolling(120).mean()
         gas.count_block = gas.count_block.rolling(120).mean()
         gas.limit_total_block = gas.limit_total_block.rolling(120).median()
@@ -242,29 +248,34 @@ class Forecastting:
         gas = pd.concat([
             gas,
             gas.block_count.rolling(round(120 * rate_all[rate_f])).mean()
-        ], axis=1)
+        ],
+                        axis=1)
         gas = pd.concat([
             gas,
             gas.count_block.rolling(round(120 * rate_all[rate_f])).mean()
-        ], axis=1)
+        ],
+                        axis=1)
         gas = pd.concat([
             gas,
             gas.limit_total_block.rolling(round(
                 120 * rate_all[rate_f])).median()
-        ], axis=1)
+        ],
+                        axis=1)
         gas = pd.concat([
             gas,
             gas.cap_total_block.rolling(round(
                 120 * rate_all[rate_f])).median()
-        ], axis=1)
+        ],
+                        axis=1)
         gas = pd.concat([
             gas,
             gas.premium_total_block.rolling(round(
                 120 * rate_all[rate_f])).median()
-        ], axis=1)
+        ],
+                        axis=1)
         gas = gas.drop(columns=['range'])
         my_scaler = MinMaxScaler(feature_range=(0, 1))
-        gas_test = gas.iloc[len(gas) - raw_range : len(gas), :].copy()
+        gas_test = gas.iloc[len(gas) - raw_range:len(gas), :].copy()
         gas_test.loc[:, :] = my_scaler.fit_transform(gas_test)
         gas_test = pd.DataFrame(
             pd.DataFrame(gas_test.iloc[len(gas_test) - 1, :]).values.reshape(
@@ -290,7 +301,7 @@ class Forecastting:
         for i in range(1, 11):
             fee_test.iloc[0, i] = 0
         fee_test_sort = fee.iloc[len(gas) -
-                                 fee_range : len(gas)].copy().sort_values()
+                                 fee_range:len(gas)].copy().sort_values()
         if (fee_test.iloc[0, 0] >= fee_test_sort.iloc[fee_percent[8]]):
             fee_test.iloc[0, 1] = 1
         elif (fee_test.iloc[0, 0] >= fee_test_sort.iloc[fee_percent[7]]):
@@ -311,7 +322,7 @@ class Forecastting:
             fee_test.iloc[0, 9] = 1
         else:
             fee_test.iloc[0, 10] = 1
-        fee_test = fee_test.iloc[:, 1 :]
+        fee_test = fee_test.iloc[:, 1:]
         gas_test = pd.concat(
             [gas_test.reset_index(drop=True),
              fee_test.reset_index(drop=True)],
