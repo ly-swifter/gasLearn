@@ -117,19 +117,22 @@ class Training:
             gas_train_sort = gas_train.iloc[:, i].sort_values()
             for j in range(raw_ex[0]):
                 gas_train_ex.iloc[j, i] = gas_train_sort.iloc[round(
-                    raw_ex[0] / raw_ex[2] * len(gas_train))]
+                    (raw_ex[0] / 2) / raw_ex[2] * len(gas_train))]
             for j in range(raw_ex[0], raw_ex[1]):
                 gas_train_ex.iloc[j, i] = gas_train_sort.iloc[round(
-                    raw_ex[1] / raw_ex[2] * len(gas_train))]
+                    ((raw_ex[1] + raw_ex[0]) / 2 ) / raw_ex[2] * len(gas_train))]
             for j in range(raw_ex[1], round(raw_ex[2] / 2)):
                 gas_train_ex.iloc[j, i] = gas_train_sort.iloc[round(
-                    len(gas_train) / 2)]
+                    (raw_ex[2] / 2 - 1 + raw_ex[1]) / 2) * len(gas_train))]
+            for j in range(round(raw_ex[2] / 2), raw_ex[2] - raw_ex[1] - 1):
+                gas_train_ex.iloc[j, i] = gas_train_sort.iloc[len(gas_train) - 1 - round(
+                    (raw_ex[2] / 2 - 1 + raw_ex[1]) / 2) * len(gas_train))]
             for j in range(round(raw_ex[2] / 2), raw_ex[2] - raw_ex[1]):
-                gas_train_ex.iloc[j, i] = gas_train_sort.iloc[len(gas_train) - 1 -
-                    round(raw_ex[1] / raw_ex[2] * len(gas_train))]
+                gas_train_ex.iloc[j, i] = gas_train_sort.iloc[len(gas_train) - 1 - round(
+                    ((raw_ex[1] + raw_ex[0]) / 2 ) / raw_ex[2] * len(gas_train))]
             for j in range(raw_ex[2] - raw_ex[1], raw_ex[2]):
-                gas_train_ex.iloc[j, i] = gas_train_sort.iloc[len(gas_train) - 1 -
-                    round(raw_ex[0] / raw_ex[2] * len(gas_train))]
+                gas_train_ex.iloc[j, i] = gas_train_sort.iloc[len(gas_train) - 1 - round(
+                    (raw_ex[0] / 2) / raw_ex[2] * len(gas_train))]
         gas_train_ex = pd.concat([gas_train_ex.reset_index(drop = True), gas_train_ex.reset_index(drop = True)], axis = 0)
         tar_train = tar.iloc[len(gas) - raw_range : len(gas) - 120].copy()
         tar_train_ex = tar.iloc[:2 * raw_ex[2]].copy()
