@@ -22,7 +22,13 @@ class Forecastting:
                 range_forecast = pd.read_csv(R_F_T)
             except:
                 print('load_nick_csv_t_err')
+        if (range_forecast.range.iloc[len(range_forecast) - 1] == 0):
+             if (range_forecast.range.iloc[len(range_forecast) - 2] == 0):
+                range_forecast = pd.read_csv(R_F_T)
         gas = pd.read_csv(file_path)
+        if (gas.parent_basefee.iloc[len(gas) - 1] == 0):
+             if (gas.parent_basefee.iloc[len(gas) - 2] == 0):
+                print('lost_input_data')
         gas = gas.drop(columns=['range', 'forecast'])
         gas = pd.merge(gas, range_forecast, on='epoch',
                        how='left').sort_values(by=['epoch'], ascending=True)
@@ -174,14 +180,17 @@ class Forecastting:
                 gas.forecast.iloc[len(gas) - 1] = forecast[i]
                 forecast_res = forecast[i]
         range_forecast = pd.concat([epoch, gas.range, gas.forecast], axis=1)
+        if (range_forecast.range.iloc[len(range_forecast) - 1] == 0):
+             if (range_forecast.range.iloc[len(range_forecast) - 2] == 0):
+                print('lost_output_data')
         try:
             range_forecast.to_csv(R_F, index = False)
         except:
             print('save_nick _csv_err')
-            range_forecast.to_csv(R_F_T, index=False)
-            if os.path.exists(R_F):
-                os.remove(R_F)
-            os.rename(R_F_T, R_F)
+        try:
+            range_forecast.to_csv(R_F_T, index = False)
+        except:
+            print('save_nick _csv_t_err')
         gas = gas.drop(columns=['parent_basefee'])
         rate_f = 0
         if (raw_range <= 777):
