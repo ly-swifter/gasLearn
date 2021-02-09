@@ -75,8 +75,8 @@ class ForecastTiggerView(APIView):
 
         s_set = ForecastResultSerializer(
             data={
-                "epoch": quest_data.epoch,
-                "parent_basefee": quest_data.basefee,
+                "epoch": quest_data['epoch'],
+                "parent_basefee": quest_data['parent_basefee'],
                 "delta": forecast_res,
                 "isPostive": is_pos,
                 "delta_proba": proba_positive[0][0],
