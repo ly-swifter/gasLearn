@@ -63,7 +63,7 @@ class ForecastTiggerView(APIView):
             is_pos = True
 
         probb = proba_positive[0][0]
-        if is_pos == True:
+        if is_pos:
             probb = proba_positive[0][1]
 
         retest_set = TrainingBlockModel.objects.all().order_by('-epoch')[:120]
