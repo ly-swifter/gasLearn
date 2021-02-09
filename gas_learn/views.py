@@ -80,7 +80,7 @@ class ForecastTiggerView(APIView):
                 "delta": forecast_res,
                 "isPostive": is_pos,
                 "delta_proba": proba_positive[0][0],
-                "prodict_median": forecast_res + quest_data.basefee,
+                "prodict_median": forecast_res + quest_data['parent_basefee'],
                 "retest_median": retest_median,
             })
 
