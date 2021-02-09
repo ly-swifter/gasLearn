@@ -37,6 +37,8 @@ class ForecastTiggerView(APIView):
 
         quest_data = request.data
 
+        print(retest_median)
+
         tmpfile = open(TRAIN_RAW_RANG, 'r')
         raw_range = tmpfile.read()
         tmpfile.close()
