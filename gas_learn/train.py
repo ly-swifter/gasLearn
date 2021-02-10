@@ -27,7 +27,7 @@ class Training:
              if (gas.parent_basefee.iloc[len(gas) - 2] == 0):
                 print('lost_input_data')
         fee_all = gas.parent_basefee.copy()
-        fee_all = fee_all.iloc[len(fee_all) - 12000 : len(fee_all)]
+        fee_all = fee_all.iloc[len(fee_all) - 15000 : len(fee_all)]
         try:
             range_forecast = pd.read_csv(R_F)
         except:
@@ -67,27 +67,27 @@ class Training:
 	        raw_range = 508
 	        raw_ex = [0, 2, 12]
 	        rate_f = 0
-	        fee_range = 254
+	        fee_range = 359
         elif (raw_range <= 1600):
 	        raw_range = 1046
 	        raw_ex = [1, 4, 24]
 	        rate_f = 1
-	        fee_range = 440
+	        fee_range = 678
         elif (raw_range <= 3292):
 	        raw_range = 2153
 	        raw_ex = [1, 8, 48]
 	        rate_f = 2
-	        fee_range = 744
+	        fee_range = 1291
         elif (raw_range <= 6777):
 	        raw_range = 4431
 	        raw_ex = [2, 14, 100]
 	        rate_f = 3
-	        fee_range = 1242
+	        fee_range = 2346
         else:
 	        raw_range = 9122
 	        raw_ex = [4, 27, 200]
 	        rate_f = 4
-	        fee_range = 2064
+	        fee_range = 4339
         raw_range=round(raw_range)
         print('return_raw_range')
         print(raw_range)
@@ -162,7 +162,7 @@ class Training:
             for j in range(1, 11):
                 fee_train.iloc[i, j] = 0
         for i in range(len(fee_train)):
-            fee_train_sort = fee_all.iloc[12001 - len(fee_train) + i - fee_range : 12001 - len(fee_train) + i].copy().sort_values()
+            fee_train_sort = fee_all.iloc[15001 - len(fee_train) + i - fee_range : 15001 - len(fee_train) + i].copy().sort_values()
             if (fee_train.iloc[i, 0] >= fee_train_sort.iloc[fee_percent[8]]):
                 fee_train.iloc[i, 1] = 1
             elif (fee_train.iloc[i, 0] >= fee_train_sort.iloc[fee_percent[7]]):
