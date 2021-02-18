@@ -142,6 +142,7 @@ class TrainingTiggerView(APIView):
         print(request)
         train_obj = Training()
         train_obj.train(ORIGINAL_DATA_FILE)
+        print("train tigger finished")
         return Response(status=status.HTTP_200_OK)
 
 

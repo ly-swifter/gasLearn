@@ -270,4 +270,5 @@ class Training:
             tmpfile = open(TRAIN_RAW_RANG, 'w')
             tmpfile.write(str(raw_range))
             tmpfile.close()
+            print("train finished")
             return raw_range
