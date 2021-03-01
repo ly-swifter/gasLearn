@@ -32,7 +32,7 @@ class Forecastting:
         gas = gas.drop(columns=['range', 'forecast'])
         gas = pd.merge(gas, range_forecast, on='epoch',
                        how='left').sort_values(by=['epoch'], ascending=True)
-        gas = gas.iloc[len(gas) - 10000:len(gas), :].fillna(0)
+        gas = gas.iloc[len(gas) - 10000 : len(gas), :].fillna(0)
         rate_all = [1.6180339887, 2.058, 2.6180339887, 3.33, 4.236]
         forecast_l_all = [
             157.08203932948422, 135.55, 127.0820393254225, 123.34,
@@ -58,7 +58,7 @@ class Forecastting:
             res = np.interp(
                 list.values.reshape(len(list)),
                 pd.DataFrame(range(_raw_range)).values.reshape(_raw_range),
-                fee.copy().iloc[len(fee) - _raw_range:len(fee)].sort_index(
+                fee.copy().iloc[len(fee) - _raw_range : len(fee)].sort_index(
                     ascending=False).values.reshape(_raw_range))
             res = pd.DataFrame(res).sort_index(ascending=False)
             l = np.polyfit(range(res_range), res.values.reshape(len(res)), 1)
@@ -68,7 +68,7 @@ class Forecastting:
             for i in range(len(res)):
                 res.iloc[i, 0] -= b
             res_raw_0 = res.copy()
-            res_0 = res.rolling(5).median().iloc[4:]
+            res_0 = res.rolling(5).median().iloc[4 :]
             outter = sample_rate.iloc[1, 2 * j]
             inner = sample_rate.iloc[1, 2 * j + 1]
             res_range = round(inner)
@@ -79,7 +79,7 @@ class Forecastting:
             res = np.interp(
                 list.values.reshape(len(list)),
                 pd.DataFrame(range(_raw_range)).values.reshape(_raw_range),
-                fee.copy().iloc[len(fee) - _raw_range:len(fee)].sort_index(
+                fee.copy().iloc[len(fee) - _raw_range : len(fee)].sort_index(
                     ascending=False).values.reshape(_raw_range))
             res = pd.DataFrame(res).sort_index(ascending=False)
             l = np.polyfit(range(res_range), res.values.reshape(len(res)), 1)
@@ -89,7 +89,7 @@ class Forecastting:
             for i in range(len(res)):
                 res.iloc[i, 0] -= b
             res_raw_1 = res.copy()
-            res_1 = res.rolling(5).median().iloc[4:]
+            res_1 = res.rolling(5).median().iloc[4 :]
             outter = sample_rate.iloc[2, 2 * j]
             inner = sample_rate.iloc[2, 2 * j + 1]
             res_range = round(inner)
@@ -100,7 +100,7 @@ class Forecastting:
             res = np.interp(
                 list.values.reshape(len(list)),
                 pd.DataFrame(range(_raw_range)).values.reshape(_raw_range),
-                fee.copy().iloc[len(fee) - _raw_range:len(fee)].sort_index(
+                fee.copy().iloc[len(fee) - _raw_range : len(fee)].sort_index(
                     ascending=False).values.reshape(_raw_range))
             res = pd.DataFrame(res).sort_index(ascending=False)
             l = np.polyfit(range(res_range), res.values.reshape(len(res)), 1)
@@ -110,10 +110,10 @@ class Forecastting:
             for i in range(len(res)):
                 res.iloc[i, 0] -= b
             res_raw_2 = res.copy()
-            res_2 = res.rolling(5).median().iloc[4:]
-            _res_0 = res_1.iloc[:len(res_0)].values / res_0.values
-            _res_1 = res_2.iloc[:len(res_0)].values / res_0.values
-            _res_2 = res_2.iloc[:len(res_1)].values / res_1.values
+            res_2 = res.rolling(5).median().iloc[4 :]
+            _res_0 = res_1.iloc[: len(res_0)].values / res_0.values
+            _res_1 = res_2.iloc[: len(res_0)].values / res_0.values
+            _res_2 = res_2.iloc[: len(res_1)].values / res_1.values
             for i in range(len(_res_0)):
                 if (-1 < _res_0[i, 0] < 1):
                     _res_0[i, 0] = 1 / _res_0[i, 0]
@@ -132,9 +132,9 @@ class Forecastting:
                             k_0 / rate, k_1 / (rate * rate), k_2 /
                             (rate * rate * rate)
                         ])
-            _res_0 = res_raw_0.values / res_raw_1.iloc[:len(res_raw_0)].values
-            _res_1 = res_raw_0.values / res_raw_2.iloc[:len(res_raw_0)].values
-            _res_2 = res_raw_1.values / res_raw_2.iloc[:len(res_raw_1)].values
+            _res_0 = res_raw_0.values / res_raw_1.iloc[: len(res_raw_0)].values
+            _res_1 = res_raw_0.values / res_raw_2.iloc[: len(res_raw_0)].values
+            _res_2 = res_raw_1.values / res_raw_2.iloc[: len(res_raw_1)].values
             prop_raw = pd.concat([
                 pd.DataFrame(_res_0),
                 pd.DataFrame(_res_1),
@@ -178,7 +178,7 @@ class Forecastting:
             if (np.min(score) == score[i]):
                 gas.range.iloc[len(gas) - 1] = sample_rate.iloc[2, 2 * i]
                 gas.forecast.iloc[len(gas) - 1] = forecast[i]
-                forecast_res = forecast[i]
+                forecast_res =  (np.std(fee.copy().iloc[len(fee) - 120 : len(fee)]) +  np.std(fee.copy().iloc[len(fee) - 74 : len(fee)])) / 2
         range_forecast = pd.concat([epoch, gas.range, gas.forecast], axis=1)
         if (range_forecast.range.iloc[len(range_forecast) - 1] == 0):
             if (range_forecast.range.iloc[len(range_forecast) - 2] == 0):
@@ -273,7 +273,7 @@ class Forecastting:
                         axis=1)
         gas = gas.drop(columns=['range'])
         my_scaler = MinMaxScaler(feature_range=(0, 1))
-        gas_test = gas.iloc[len(gas) - raw_range:len(gas), :].copy()
+        gas_test = gas.iloc[len(gas) - raw_range : len(gas), :].copy()
         gas_test.loc[:, :] = my_scaler.fit_transform(gas_test)
         gas_test = pd.DataFrame(
             pd.DataFrame(gas_test.iloc[len(gas_test) - 1, :]).values.reshape(
@@ -298,8 +298,7 @@ class Forecastting:
         fee_test = pd.DataFrame(pd.DataFrame(fee_test).values.reshape(1, 11))
         for i in range(1, 11):
             fee_test.iloc[0, i] = 0
-        fee_test_sort = fee.iloc[len(gas) -
-                                 fee_range:len(gas)].copy().sort_values()
+        fee_test_sort = fee.iloc[len(gas) - fee_range : len(gas)].copy().sort_values()
         if (fee_test.iloc[0, 0] >= fee_test_sort.iloc[fee_percent[8]]):
             fee_test.iloc[0, 1] = 1
         elif (fee_test.iloc[0, 0] >= fee_test_sort.iloc[fee_percent[7]]):
@@ -320,7 +319,7 @@ class Forecastting:
             fee_test.iloc[0, 9] = 1
         else:
             fee_test.iloc[0, 10] = 1
-        fee_test = fee_test.iloc[:, 1:]
+        fee_test = fee_test.iloc[:, 1 :]
         gas_test = pd.concat(
             [gas_test.reset_index(drop=True),
              fee_test.reset_index(drop=True)],
