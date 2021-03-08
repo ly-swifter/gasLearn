@@ -85,8 +85,8 @@ class Training:
         raw_range=round(raw_range)
         print('return_raw_range')
         print(raw_range)
-        gas = gas.iloc[len(gas) - raw_range - 600 : len(gas) - 120, :]
-        fee = fee.iloc[len(fee) - raw_range - 600 : len(fee) - 120]
+        gas = gas.iloc[len(gas) - raw_range - 1000 : len(gas) - 120, :]
+        fee = fee.iloc[len(fee) - raw_range - 1000 : len(fee) - 120]
         gas = pd.concat([gas, (fee.rolling(round(5 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat([gas, (fee.rolling(round(8 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat([gas, (fee.rolling(round(13 * rate_all[rate_f])).median())], axis=1)
