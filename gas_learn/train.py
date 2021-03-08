@@ -86,7 +86,11 @@ class Training:
         print('return_raw_range')
         print(raw_range)
         gas = gas.iloc[len(gas) - raw_range - 1600 : len(gas) - 120, :]
+        print('train_debug')
+        print(len(fee))
         fee = fee.iloc[len(fee) - raw_range - 1600 : len(fee) - 120]
+        print('train_debug')
+        print(len(fee))
         gas = pd.concat([gas, (fee.rolling(round(5 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat([gas, (fee.rolling(round(8 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat([gas, (fee.rolling(round(13 * rate_all[rate_f])).median())], axis=1)
@@ -137,8 +141,6 @@ class Training:
         for i in range(raw_ex[2], 2 * raw_ex[2]):
             tar_train_ex.iloc[i] = 1
         tar_train = pd.concat([tar_train.reset_index(drop = True), tar_train_ex.reset_index(drop = True)], axis = 0)
-        print('train_debug')
-        print(len(fee))
         fee_train_raw = fee.iloc[len(fee) - raw_range + 120 : len(fee)].copy()
         fee_percent = [
             round(0.0296 * (fee_range - 120)),
