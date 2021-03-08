@@ -105,7 +105,6 @@ class Training:
         gas = pd.concat([gas, gas.cap_total_block.rolling(round(120 * rate_all[rate_f])).median()], axis=1)
         gas = pd.concat([gas, gas.premium_total_block.rolling(round(120 * rate_all[rate_f])).median()], axis=1)
         gas = gas.drop(columns=['range'])
-        print('train_debug')
         my_scaler = MinMaxScaler(feature_range=(0, 1))
         gas_train = gas.iloc[len(gas) - raw_range + 120 : len(gas), :].copy()
         gas_train.loc[:, :] = my_scaler.fit_transform(gas_train)
@@ -130,6 +129,7 @@ class Training:
             for j in range(raw_ex[2] - raw_ex[0], raw_ex[2]):
                 gas_train_ex.iloc[j, i] = gas_train_sort.iloc[len(gas_train) - 1 - round(
                     (raw_ex[0] / 2) / raw_ex[2] * len(gas_train))]
+        print('train_debug')
         gas_train_ex = pd.concat([gas_train_ex.reset_index(drop = True), gas_train_ex.reset_index(drop = True)], axis = 0)
         tar_train = tar.iloc[len(gas) - raw_range : len(gas) - 120].copy()
         tar_train_ex = tar.iloc[: 2 * raw_ex[2]].copy()
