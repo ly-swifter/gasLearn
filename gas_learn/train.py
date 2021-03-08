@@ -200,6 +200,10 @@ class Training:
                 gas_train.reset_index(drop=True),
                 gas_train_ex.reset_index(drop=True)
             ], axis=0)
+            print('gas_train')
+            print(gas_train.shape)
+            print('tar_train')
+            print(tar_train.shape)
             L2LR = LogisticRegression(penalty='l2', C=0.618, max_iter=900000)
             L2LR.fit(gas_train, tar_train.values.ravel())
             with open(L2LR_PICKLE_FILE, 'wb') as f:
