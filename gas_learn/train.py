@@ -138,6 +138,8 @@ class Training:
             tar_train_ex.iloc[i] = 1
         tar_train = pd.concat([tar_train.reset_index(drop = True), tar_train_ex.reset_index(drop = True)], axis = 0)
         fee_train_raw = fee.iloc[len(fee) - raw_range + 120 : len(fee)].copy()
+        print('train_debug')
+        print(len(fee_train_raw))
         fee_percent = [
             round(0.0296 * (fee_range - 120)),
             round(0.077448747 * (fee_range - 120)),
@@ -158,7 +160,7 @@ class Training:
         for i in range(len(fee_train)):
             for j in range(1, 11):
                 fee_train.iloc[i, j] = 0
-        print(len('train_debug'))
+        print('train_debug')
         print(len(fee_train))
         for i in range(len(fee_train)):
             if(fee_all.iloc[15000 - len(fee_train) + i] == fee_train.iloc[i, 0]):
