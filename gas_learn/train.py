@@ -159,6 +159,8 @@ class Training:
             for j in range(1, 11):
                 fee_train.iloc[i, j] = 0
         for i in range(len(fee_train)):
+            if(fee_train_sort.iloc[15001 - len(fee_train) + i] == fee_train.iloc[i, 0])
+              print('ok')
             fee_train_sort = fee_all.iloc[15121 - len(fee_train) + i - fee_range : 15001 - len(fee_train) + i].copy().sort_values()
             if (fee_train.iloc[i, 0] >= fee_train_sort.iloc[fee_percent[8]]):
                 fee_train.iloc[i, 1] = 1
