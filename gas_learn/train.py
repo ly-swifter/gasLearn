@@ -109,6 +109,7 @@ class Training:
         gas_train = gas.iloc[len(gas) - raw_range + 120 : len(gas), :].copy()
         gas_train.loc[:, :] = my_scaler.fit_transform(gas_train)
         gas_train_ex = gas_train.iloc[:raw_ex[2], :].copy()
+        print('train_debug')
         for i in range(14):
             gas_train_sort = gas_train.iloc[:, i].sort_values()
             for j in range(raw_ex[0]):
