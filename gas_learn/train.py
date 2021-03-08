@@ -159,7 +159,7 @@ class Training:
             for j in range(1, 11):
                 fee_train.iloc[i, j] = 0
         for i in range(len(fee_train)):
-            fee_train_sort = fee_all.iloc[15001 - len(fee_train) + i - fee_range : 15001 - len(fee_train) + i].copy().sort_values()
+            fee_train_sort = fee_all.iloc[len(fee_all) - i - fee_range + 120 : len(fee_all) - i].copy().sort_values()
             if (fee_train.iloc[i, 0] >= fee_train_sort.iloc[fee_percent[8]]):
                 fee_train.iloc[i, 1] = 1
             elif (fee_train.iloc[i, 0] >= fee_train_sort.iloc[fee_percent[7]]):
@@ -201,10 +201,6 @@ class Training:
                 gas_train.reset_index(drop=True),
                 gas_train_ex.reset_index(drop=True)
             ], axis=0)
-            print('gas_train')
-            print(gas_train.shape)
-            print('tar_train')
-            print(tar_train.shape)
             L2LR = LogisticRegression(penalty='l2', C=0.618, max_iter=900000)
             L2LR.fit(gas_train, tar_train.values.ravel())
             with open(L2LR_PICKLE_FILE, 'wb') as f:
