@@ -149,6 +149,7 @@ class Training:
             round(0.92 * (fee_range - 120)),
             round(0.968 * (fee_range - 120))
         ]
+        print(fee_percent)
         fee_train = pd.concat([
             fee_train_raw, fee_train_raw, fee_train_raw, fee_train_raw,
             fee_train_raw, fee_train_raw, fee_train_raw, fee_train_raw,
