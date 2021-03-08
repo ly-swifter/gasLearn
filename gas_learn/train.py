@@ -105,6 +105,7 @@ class Training:
         gas = pd.concat([gas, gas.cap_total_block.rolling(round(120 * rate_all[rate_f])).median()], axis=1)
         gas = pd.concat([gas, gas.premium_total_block.rolling(round(120 * rate_all[rate_f])).median()], axis=1)
         gas = gas.drop(columns=['range'])
+        print('train_debug')
         my_scaler = MinMaxScaler(feature_range=(0, 1))
         gas_train = gas.iloc[len(gas) - raw_range + 120 : len(gas), :].copy()
         gas_train.loc[:, :] = my_scaler.fit_transform(gas_train)
