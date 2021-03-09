@@ -52,8 +52,6 @@ class Training:
         tar = tar.tar
         gas = gas.fillna(0)
         fee = gas.parent_basefee.copy()
-        print('train_debug')
-        print(len(fee))
         gas = gas.drop(columns=['parent_basefee'])
         raw_range = round(np.median(gas.range.iloc[len(gas) - 120 : len(gas)]) + np.median(gas.range.iloc[len(gas) - 74 : len(gas)]))
         raw_range /= 2
@@ -88,11 +86,7 @@ class Training:
         print('return_raw_range')
         print(raw_range)
         gas = gas.iloc[len(gas) - raw_range - 800 : len(gas) - 120, :].copy()
-        print('train_debug')
-        print(len(fee))
         fee = fee.iloc[len(fee) - raw_range - 800 : len(fee) - 120].copy()
-        print('train_debug')
-        print(len(fee))
         gas = pd.concat([gas, (fee.rolling(round(5 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat([gas, (fee.rolling(round(8 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat([gas, (fee.rolling(round(13 * rate_all[rate_f])).median())], axis=1)
