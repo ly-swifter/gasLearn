@@ -85,10 +85,10 @@ class Training:
         raw_range=round(raw_range)
         print('return_raw_range')
         print(raw_range)
-        gas = gas.iloc[len(gas) - raw_range - 1600 : len(gas) - 120, :]
+        gas = gas.iloc[len(gas) - raw_range - 1600 : len(gas) - 120, :].copy()
         print('train_debug')
         print(len(fee))
-        fee = fee.iloc[len(fee) - raw_range - 1600 : len(fee) - 120]
+        fee = fee.iloc[len(fee) - raw_range - 1600 : len(fee) - 120].copy()
         print('train_debug')
         print(len(fee))
         gas = pd.concat([gas, (fee.rolling(round(5 * rate_all[rate_f])).median())], axis=1)
@@ -114,7 +114,7 @@ class Training:
         gas_train.loc[:, :] = my_scaler.fit_transform(gas_train)
         gas_train_ex = gas_train.iloc[:raw_ex[2], :].copy()
         for i in range(14):
-            gas_train_sort = gas_train.iloc[:, i].sort_values()
+            gas_train_sort = gas_train.iloc[:, i].copy().sort_values()
             for j in range(raw_ex[0]):
                 gas_train_ex.iloc[j, i] = gas_train_sort.iloc[round(
                     (raw_ex[0] / 2) / raw_ex[2] * len(gas_train))]
