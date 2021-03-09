@@ -161,6 +161,7 @@ class Training:
         print('train_debug')
         print(len(fee_train))
         for i in range(len(fee_train)):
+            print('loop')
             if(fee_all.iloc[15000 - len(fee_train) + i] == fee_train.iloc[i, 0]):
               print('train_ok')
             fee_train_sort = fee_all.iloc[15120 - len(fee_train) + i - fee_range : 15000 - len(fee_train) + i].copy().sort_values()
