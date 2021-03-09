@@ -161,9 +161,6 @@ class Training:
         print('train_debug')
         print(len(fee_train))
         for i in range(len(fee_train)):
-            print('loop')
-            if(fee_all.iloc[15000 - len(fee_train) + i] == fee_train.iloc[i, 0]):
-              print('train_ok')
             fee_train_sort = fee_all.iloc[15120 - len(fee_train) + i - fee_range : 15000 - len(fee_train) + i].copy().sort_values()
             if (fee_train.iloc[i, 0] >= fee_train_sort.iloc[fee_percent[8]]):
                 fee_train.iloc[i, 1] = 1
@@ -185,33 +182,33 @@ class Training:
                 fee_train.iloc[i, 9] = 1
             else:
                 fee_train.iloc[i, 10] = 1
-            fee_train = fee_train.iloc[:, 1:]
-            gas_train = pd.concat([
-                gas_train.reset_index(drop=True),
-                fee_train.reset_index(drop=True)
-            ], axis=1)
-            fee_train = fee_train.iloc[:2 * raw_ex[2], :]
-            for i in range(2 * raw_ex[2]):
-                for j in range(10):
-                    fee_train.iloc[i, j] = 0
-            for i in range(raw_ex[2]):
-                fee_train.iloc[i, 0] = 1
-            for i in range(raw_ex[2], 2 * raw_ex[2]):
-                fee_train.iloc[i, 9] = 1
-            gas_train_ex = pd.concat([
-                gas_train_ex.reset_index(drop=True),
-                fee_train.reset_index(drop=True)
-            ], axis=1)
-            gas_train = pd.concat([
-                gas_train.reset_index(drop=True),
-                gas_train_ex.reset_index(drop=True)
-            ], axis=0)
-            L2LR = LogisticRegression(penalty='l2', C=0.618, max_iter=900000)
-            L2LR.fit(gas_train, tar_train.values.ravel())
-            with open(L2LR_PICKLE_FILE, 'wb') as f:
-                pickle.dump(L2LR, f)
-            tmpfile = open(TRAIN_RAW_RANG, 'w')
-            tmpfile.write(str(raw_range))
-            tmpfile.close()
-            print("train finished")
-            return raw_range
+        fee_train = fee_train.iloc[:, 1:]
+        gas_train = pd.concat([
+            gas_train.reset_index(drop=True),
+            fee_train.reset_index(drop=True)
+        ], axis=1)
+        fee_train = fee_train.iloc[:2 * raw_ex[2], :]
+        for i in range(2 * raw_ex[2]):
+            for j in range(10):
+                fee_train.iloc[i, j] = 0
+        for i in range(raw_ex[2]):
+            fee_train.iloc[i, 0] = 1
+        for i in range(raw_ex[2], 2 * raw_ex[2]):
+            fee_train.iloc[i, 9] = 1
+        gas_train_ex = pd.concat([
+            gas_train_ex.reset_index(drop=True),
+            fee_train.reset_index(drop=True)
+        ], axis=1)
+        gas_train = pd.concat([
+            gas_train.reset_index(drop=True),
+            gas_train_ex.reset_index(drop=True)
+        ], axis=0)
+        L2LR = LogisticRegression(penalty='l2', C=0.618, max_iter=900000)
+        L2LR.fit(gas_train, tar_train.values.ravel())
+        with open(L2LR_PICKLE_FILE, 'wb') as f:
+            pickle.dump(L2LR, f)
+        tmpfile = open(TRAIN_RAW_RANG, 'w')
+        tmpfile.write(str(raw_range))
+        tmpfile.close()
+        print("train finished")
+        return raw_range
