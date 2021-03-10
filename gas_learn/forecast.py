@@ -178,7 +178,7 @@ class Forecastting:
             if (np.min(score) == score[i]):
                 gas.range.iloc[len(gas) - 1] = sample_rate.iloc[2, 2 * i]
                 gas.forecast.iloc[len(gas) - 1] = forecast[i]
-                forecast_res =  (np.std(fee.copy().iloc[len(fee) - 120 : len(fee)]) +  np.std(fee.copy().iloc[len(fee) - 74 : len(fee)])) / 2
+                forecast_res =  (np.std(fee.copy().iloc[len(fee) - 120 : len(fee)]) + np.std(fee.copy().iloc[len(fee) - 74 : len(fee)])) / 2
         range_forecast = pd.concat([epoch, gas.range, gas.forecast], axis=1)
         if (range_forecast.range.iloc[len(range_forecast) - 1] == 0):
             if (range_forecast.range.iloc[len(range_forecast) - 2] == 0):
@@ -326,6 +326,6 @@ class Forecastting:
             axis=1)
         is_increase = L2LR.predict(gas_test)
         proba_positive = L2LR.predict_proba(gas_test)
-        print(is_increase, proba_positive, forecast_res * abs(proba_positive - 0.5))
-        return is_increase, proba_positive, forecast_res * abs(proba_positive - 0.5)
+        print(is_increase, proba_positive, forecast_res)
+        return is_increase, proba_positive, forecast_res
 
