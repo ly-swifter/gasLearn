@@ -326,6 +326,6 @@ class Forecastting:
             axis=1)
         is_increase = L2LR.predict(gas_test)
         proba_positive = L2LR.predict_proba(gas_test)
-        print(is_increase, proba_positive, forecast_res.iloc[0] * abs(proba_positive - 0.5))
-        return is_increase, proba_positive, forecast_res.iloc[0] * abs(proba_positive - 0.5)
+        print(is_increase, proba_positive, (forecast_res * abs(proba_positive - 0.5)))
+        return is_increase, proba_positive, (forecast_res * abs(proba_positive - 0.5))
 
