@@ -87,7 +87,7 @@ class ForecastTiggerView(APIView):
                 "delta": forecast_res,
                 "isPostive": is_pos,
                 "delta_proba": probb,
-                "prodict_median": forecast_res + p_base,
+                "prodict_median": forecast_res + p_base if is_pos else p_base - forecast_res,
                 "retest_median": retest_median,
             })
 
