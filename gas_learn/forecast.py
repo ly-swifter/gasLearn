@@ -30,6 +30,7 @@ class Forecastting:
             if (gas.parent_basefee.iloc[len(gas) - 2] == 0):
                 print('lost_input_data')
         gas = gas.drop(columns=['range', 'forecast'])
+        gas = gas.sort_values(by=['epoch'])
         gas = pd.merge(gas, range_forecast, on='epoch',
                        how='left').sort_values(by=['epoch'], ascending=True)
         gas = gas.iloc[len(gas) - 10000 : len(gas), :].fillna(0)
