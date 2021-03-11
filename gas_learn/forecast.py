@@ -331,8 +331,5 @@ class Forecastting:
         proba_res = proba_positive[0][0]
         if (proba_positive[0][0] < proba_positive[0][1]):
             proba_res = proba_positive[0][1]
-        print(is_increase, proba_positive, (0.5 - 1 / (1 + np.exp(proba_res))) * 8.166 * forecast_res)
-        return is_increase, proba_positive, (0.5 - 1 / (1 + np.exp(proba_res))) * 8.166 * forecast_res
-
-        
-
+        print(is_increase, proba_positive, (0.5 - 1 / (1 + np.exp(proba_res - 0.5))) * 8.166 * forecast_res)
+        return is_increase, proba_positive, (0.5 - 1 / (1 + np.exp(proba_res - 0.5))) * 8.166 * forecast_res
