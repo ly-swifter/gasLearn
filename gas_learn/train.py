@@ -20,6 +20,7 @@ class Training:
         if (gas.parent_basefee.iloc[len(gas) - 1] == 0):
              if (gas.parent_basefee.iloc[len(gas) - 2] == 0):
                 print('lost_input_data')
+        gas = gas.sort_values(by=['epoch'])
         fee_all = gas.parent_basefee.copy()
         fee_all = fee_all.iloc[len(fee_all) - 15120 : len(fee_all) - 120]
         try:
