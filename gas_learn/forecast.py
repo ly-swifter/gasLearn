@@ -31,7 +31,7 @@ class Forecastting:
                 print('lost_input_data')
         gas = gas.drop(columns=['range', 'forecast'])
         gas = gas.sort_values(by=['epoch'])
-        gas = pd.merge(gas,  range_forecast.drop(columns = ['forecast120']), on='epoch',
+        gas = pd.merge(gas,  range_forecast(columns=['forecast120']), on='epoch',
                        how='left').sort_values(by=['epoch'], ascending=True)
         gas = gas.iloc[len(gas) - 10000 : len(gas), :].fillna(0)
         rate_all = [1.6180339887, 2.058, 2.6180339887, 3.33, 4.236]
