@@ -24,16 +24,16 @@ class Training:
         fee_all = gas.parent_basefee.copy()
         fee_all = fee_all.iloc[len(fee_all) - 15120 : len(fee_all) - 120]
         try:
-            range_forecast = pd.read_csv(R_F).iloc[: , 0 : 3]
+            range_forecast = pd.read_csv(R_F).copy().iloc[: , 0 : 3]
         except:
             print('load_nick_csv_err')
             try:
-                range_forecast = pd.read_csv(R_F_T).iloc[: , 0 : 3]
+                range_forecast = pd.read_csv(R_F_T).copy().iloc[: , 0 : 3]
             except:
                 print('load_nick_csv_t_err')
         if (range_forecast.range.iloc[len(range_forecast) - 1] == 0):
              if (range_forecast.range.iloc[len(range_forecast) - 2] == 0):
-                range_forecast = pd.read_csv(R_F_T).iloc[: , 0 : 3]
+                range_forecast = pd.read_csv(R_F_T).copy().iloc[: , 0 : 3]
         sample_rate = pd.read_csv(SAMPLE_RATE_FILE)
         gas = pd.merge(gas.drop(columns=['range', 'forecast']), range_forecast, on = 'epoch', how = 'left').sort_values(by = ['epoch'], ascending=True)
         gas = gas.iloc[len(gas) - 10000 : len(gas), :].fillna(0)
