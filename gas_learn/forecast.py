@@ -222,24 +222,19 @@ class Forecastting:
             rate_f = 4
             fee_range = 2064
         gas = pd.concat(
-            [gas, (fee.rolling(round(5 * rate_all[rate_f])).median())], axis=1)
+            [gas, (fee.rolling(120).median())], axis=1)
         gas = pd.concat(
             [gas, (fee.rolling(round(8 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat(
-            [gas, (fee.rolling(round(13 * rate_all[rate_f])).median())],
-            axis=1)
+            [gas, (fee.rolling(round(13 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat(
-            [gas, (fee.rolling(round(21 * rate_all[rate_f])).median())],
-            axis=1)
+            [gas, (fee.rolling(round(21 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat(
-            [gas, (fee.rolling(round(34 * rate_all[rate_f])).median())],
-            axis=1)
+            [gas, (fee.rolling(round(34 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat(
-            [gas, (fee.rolling(round(55 * rate_all[rate_f])).median())],
-            axis=1)
+            [gas, (fee.rolling(round(55 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat(
-            [gas, (fee.rolling(round(89 * rate_all[rate_f])).median())],
-            axis=1)
+            [gas, (fee.rolling(round(89 * rate_all[rate_f])).median())], axis=1)
         gas.block_count = gas.block_count.rolling(120).mean()
         gas.count_block = gas.count_block.rolling(120).mean()
         gas.limit_total_block = gas.limit_total_block.rolling(120).median()
