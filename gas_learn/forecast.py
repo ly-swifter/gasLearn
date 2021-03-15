@@ -222,7 +222,7 @@ class Forecastting:
             rate_f = 4
             fee_range = 2064
         gas = pd.concat(
-            [gas, (fee.rolling(120).median())], axis=1)
+            [gas, (fee.rolling(round(5 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat(
             [gas, (fee.rolling(round(8 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat(
