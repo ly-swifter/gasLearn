@@ -15,16 +15,16 @@ class Forecastting:
         L2LR = pickle.load(open(L2LR_PICKLE_FILE, 'rb'))
         sample_rate = pd.read_csv(SAMPLE_RATE_FILE)
         try:
-            range_forecast = pd.read_csv(R_F)
+            range_forecast = pd.read_csv(R_F).copy().iloc[: , 0 : 3]
         except:
             print('load_nick_csv_err')
             try:
-                range_forecast = pd.read_csv(R_F_T)
+                range_forecast = pd.read_csv(R_F_T).copy().iloc[: , 0 : 3]
             except:
                 print('load_nick_csv_t_err')
         if (range_forecast.range.iloc[len(range_forecast) - 1] == 0):
             if (range_forecast.range.iloc[len(range_forecast) - 2] == 0):
-                range_forecast = pd.read_csv(R_F_T)
+                range_forecast = pd.read_csv(R_F_T).copy().iloc[: , 0 : 3]
         gas = pd.read_csv(file_path)
         if (gas.parent_basefee.iloc[len(gas) - 1] == 0):
             if (gas.parent_basefee.iloc[len(gas) - 2] == 0):
