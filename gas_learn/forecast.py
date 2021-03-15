@@ -31,7 +31,7 @@ class Forecastting:
                 print('lost_input_data')
         gas = gas.drop(columns=['range', 'forecast'])
         gas = gas.sort_values(by=['epoch'])
-        gas = pd.merge(gas,  range_forecast, on='epoch',
+        gas = pd.merge(gas,  range_forecast.drop(columns = ['forecast_res']), on='epoch',
                        how='left').sort_values(by=['epoch'], ascending=True)
         gas = gas.iloc[len(gas) - 10000 : len(gas), :].fillna(0)
         rate_all = [1.6180339887, 2.058, 2.6180339887, 3.33, 4.236]
@@ -41,7 +41,6 @@ class Forecastting:
         ]
         score = [0, 0, 0, 0, 0]
         forecast = [0, 0, 0, 0, 0]
-        epoch = gas.epoch
         gas = gas.drop(columns=[
             'epoch', 'limit_avg_block', 'cap_avg_block', 'premium_avg_block'
         ])
@@ -179,7 +178,7 @@ class Forecastting:
             if (np.min(score) == score[i]):
                 gas.range.iloc[len(gas) - 1] = sample_rate.iloc[2, 2 * i]
                 gas.forecast.iloc[len(gas) - 1] = forecast[i]
-        range_forecast = pd.concat([epoch, gas.range, gas.forecast], axis=1)
+        range_forecast = pd.concat([gas.epoch.copy(), gas.range.copy(), gas.forecast.copy()], axis=1)
         forecast_res_t = fee.copy().iloc[len(fee) - 240 : len(fee)].rolling(120).median() - fee.copy().iloc[len(fee) - 240 : len(fee)].shift(120)
         forecast_res =  (np.std(forecast_res_t.copy().iloc[len(forecast_res_t) - 120 : len(forecast_res_t)]) + np.std(forecast_res_t.copy().iloc[len(forecast_res_t) - 74 : len(forecast_res_t)])) / 2
         if (range_forecast.range.iloc[len(range_forecast) - 1] == 0):
