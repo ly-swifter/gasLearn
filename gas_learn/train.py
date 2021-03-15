@@ -24,11 +24,11 @@ class Training:
         fee_all = gas.parent_basefee.copy()
         fee_all = fee_all.iloc[len(fee_all) - 15120 : len(fee_all) - 120]
         try:
-            range_forecast = pd.read_csv(R_F)
+            range_forecast = pd.read_csv(R_F).iloc[: , 0 : 3]
         except:
             print('load_nick_csv_err')
             try:
-                range_forecast = pd.read_csv(R_F_T)
+                range_forecast = pd.read_csv(R_F_T).iloc[: , 0 : 3]
             except:
                 print('load_nick_csv_t_err')
         if (range_forecast.range.iloc[len(range_forecast) - 1] == 0):
