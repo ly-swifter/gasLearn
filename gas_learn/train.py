@@ -35,7 +35,7 @@ class Training:
              if (range_forecast.range.iloc[len(range_forecast) - 2] == 0):
                 range_forecast = pd.read_csv(R_F_T)
         sample_rate = pd.read_csv(SAMPLE_RATE_FILE)
-        gas = pd.merge(gas.drop(columns=['range', 'forecast']), range_forecast, on = 'epoch', how = 'left').sort_values(by = ['epoch'], ascending=True)
+        gas = pd.merge(gas.drop(columns=['range', 'forecast']), range_forecast.drop(columns = ['forecast120']), on = 'epoch', how = 'left').sort_values(by = ['epoch'], ascending=True)
         gas = gas.iloc[len(gas) - 10000 : len(gas), :].fillna(0)
         for i in range(len(gas)):
             if (gas.iloc[i, 0]):
