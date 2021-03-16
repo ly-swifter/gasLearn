@@ -181,7 +181,7 @@ class Forecastting:
         range_forecast = pd.concat([epoch, gas.range.copy(), gas.forecast.copy()], axis=1)
         forecast_res_t = fee.copy().iloc[len(fee) - 240 : len(fee)].rolling(120).median() - fee.copy().iloc[len(fee) - 240 : len(fee)].shift(120)
         forecast_res =  (np.std(forecast_res_t.copy().iloc[len(forecast_res_t) - 120 : len(forecast_res_t)]) + np.std(forecast_res_t.copy().iloc[len(forecast_res_t) - 74 : len(forecast_res_t)])) / 2
-        forecast_m = fee.copy().iloc[len(fee) - 240 : len(fee)].median()
+        forecast_m = fee.copy().iloc[len(fee) - 120 : len(fee)].median()
         if (range_forecast.range.iloc[len(range_forecast) - 1] == 0):
             if (range_forecast.range.iloc[len(range_forecast) - 2] == 0):
                 print('lost_output_data')
@@ -324,7 +324,5 @@ class Forecastting:
         is_increase = L2LR.predict(gas_test)
         proba_positive = L2LR.predict_proba(gas_test)
         proba_res = proba_positive[0][0]
-        if (proba_positive[0][0] < proba_positive[0][1]):
-            proba_res = proba_positive[0][1]
-        print(is_increase, proba_positive, (proba_res - 0.5) * forecast_res)
-        return is_increase, proba_positive, (proba_res - 0.5) * forecast_res
+        print(is_increase, proba_positive, forecast_m - (proba_res - 0.5) * forecast_res * 2)
+        return is_increase, proba_positive, forecast_m - (proba_res - 0.5) * forecast_res * 2
