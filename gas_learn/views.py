@@ -84,10 +84,10 @@ class ForecastTiggerView(APIView):
             data={
                 "epoch": quest_data['epoch'],
                 "parent_basefee": p_base,
-                "delta": forecast_res,
+                "delta": forecast_res - p_base,
                 "isPostive": is_pos,
                 "delta_proba": probb,
-                "prodict_median": forecast_res + p_base if is_pos else p_base - forecast_res,
+                "prodict_median": forecast_res,
                 "retest_median": retest_median,
             })
 
