@@ -185,8 +185,6 @@ class Forecastting:
                 gas.range.iloc[len(gas) - 1] = sample_rate.iloc[2, 2 * i]
                 gas.forecast.iloc[len(gas) - 1] = forecast[i]
         range_forecast = pd.concat([epoch, gas.range.copy(), gas.forecast.copy()], axis=1)
-        print('train_debug')
-        print(range_forecast.shape)
         forecast_res_t = fee.copy().iloc[len(fee) - 240 : len(fee)].rolling(120).median() - fee.copy().iloc[len(fee) - 240 : len(fee)].shift(120)
         forecast_res =  (np.std(forecast_res_t.copy().iloc[len(forecast_res_t) - 120 : len(forecast_res_t)]) + np.std(forecast_res_t.copy().iloc[len(forecast_res_t) - 74 : len(forecast_res_t)])) / 2
         forecast_m = fee.copy().iloc[len(fee) - 120 : len(fee)].median()
@@ -322,6 +320,8 @@ class Forecastting:
         proba_positive = L2LR.predict_proba(gas_test)
         proba_res = proba_positive[0][0]
         range_forecast = pd.concat([range_forecast, forecast_list.shift(-1)], axis=1)
+        print('train_debug')
+        print(range_forecast.shape)
         range_forecast.iloc[len(range_forecast) - 1, 3] = (proba_res - 0.5) * forecast_res
         if (range_forecast.range.iloc[len(range_forecast) - 1] == 0):
             if (range_forecast.range.iloc[len(range_forecast) - 2] == 0):
