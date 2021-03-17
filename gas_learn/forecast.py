@@ -319,10 +319,9 @@ class Forecastting:
         is_increase = L2LR.predict(gas_test)
         proba_positive = L2LR.predict_proba(gas_test)
         proba_res = proba_positive[0][0]
+        range_forecast = pd.concat([range_forecast.reset_index(drop = True), forecast_list.shift(-1).reset_index(drop = True)], axis=1)
         print('forecast_debug')
         print(range_forecast.shape)
-        print(forecast_list.shape)
-        range_forecast = pd.concat([range_forecast, forecast_list.shift(-1)], axis=1)
         range_forecast.iloc[len(range_forecast) - 1, 3] = (proba_res - 0.5) * forecast_res
         if (range_forecast.range.iloc[len(range_forecast) - 1] == 0):
             if (range_forecast.range.iloc[len(range_forecast) - 2] == 0):
