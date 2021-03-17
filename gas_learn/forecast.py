@@ -35,6 +35,8 @@ class Forecastting:
             range_forecast = range_forecast.copy().insert(1, 'forecast_list', 0)
             forecast_list = range_forecast.copy().iloc[len(range_forecast) - 10000: len(range_forecast) , 3]
         range_forecast = range_forecast.copy().iloc[: , 0 : 3]
+        print('forecast_debug')
+        print(range_forecast.shape)
         gas = gas.drop(columns=['range', 'forecast'])
         gas = gas.sort_values(by=['epoch'])
         gas = pd.merge(gas, range_forecast, on='epoch', how='left').sort_values(by=['epoch'], ascending=True)
@@ -319,12 +321,8 @@ class Forecastting:
         is_increase = L2LR.predict(gas_test)
         proba_positive = L2LR.predict_proba(gas_test)
         proba_res = proba_positive[0][0]
-        print('forecast_debug')
-        print(range_forecast.shape)
         range_forecast = pd.concat([range_forecast, forecast_list.shift(-1)], axis=1)
         range_forecast.iloc[len(range_forecast) - 1, 3] = (proba_res - 0.5) * forecast_res
-        print(range_forecast.iloc[len(range_forecast) - 1, 3])
-        print('forecast_debug')
         if (range_forecast.range.iloc[len(range_forecast) - 1] == 0):
             if (range_forecast.range.iloc[len(range_forecast) - 2] == 0):
                 print('lost_output_data')
