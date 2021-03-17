@@ -30,10 +30,10 @@ class Forecastting:
             if (gas.parent_basefee.iloc[len(gas) - 2] == 0):
                 print('lost_input_data')
         try:
-            forecast_list = range_forecast.copy().iloc[: , 3]
+            forecast_list = range_forecast.copy().iloc[len(forecast_list) - 10000: len(forecast_list), 3]
         except:
             range_forecast = range_forecast.copy().insert(1, 'forecast_list', 0)
-            forecast_list = range_forecast.copy().iloc[: , 3]
+            forecast_list = range_forecast.copy().iloc[len(forecast_list) - 10000: len(forecast_list): , 3]
         range_forecast = range_forecast.copy().iloc[: , 0 : 3]
         gas = gas.drop(columns=['range', 'forecast'])
         gas = gas.sort_values(by=['epoch'])
