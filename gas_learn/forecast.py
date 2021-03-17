@@ -35,6 +35,8 @@ class Forecastting:
             range_forecast = range_forecast.copy().insert(1, 'forecast_list', 0)
             forecast_list = range_forecast.copy().iloc[len(range_forecast) - 10000 : len(range_forecast) , 3]
         range_forecast = range_forecast.copy().iloc[len(range_forecast) - 10000: len(range_forecast) , 0 : 3]
+        print('forecast_debug')
+        print(range_forecast.shape)
         gas = gas.drop(columns=['range', 'forecast'])
         gas = gas.sort_values(by=['epoch'])
         gas = pd.merge(gas, range_forecast, on='epoch', how='left').sort_values(by=['epoch'], ascending=True)
