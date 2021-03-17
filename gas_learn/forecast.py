@@ -33,7 +33,7 @@ class Forecastting:
             forecast_list = range_forecast.copy().iloc[len(range_forecast) - 10000 : len(range_forecast) , 3]
         except:
             range_forecast = range_forecast.copy().insert(1, 'forecast_list', 0)
-            forecast_list = range_forecast.copy().iloc[len(forecast_list) - 10000: len(forecast_list): , 3]
+            forecast_list = range_forecast.copy().iloc[len(range_forecast) - 10000: len(range_forecast) , 3]
         range_forecast = range_forecast.copy().iloc[: , 0 : 3]
         gas = gas.drop(columns=['range', 'forecast'])
         gas = gas.sort_values(by=['epoch'])
