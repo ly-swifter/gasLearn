@@ -320,7 +320,7 @@ class Forecastting:
         proba_positive = L2LR.predict_proba(gas_test)
         proba_res = proba_positive[0][0]
         range_forecast = pd.concat([range_forecast, forecast_list.shift(-1)], axis=1)
-        range_forecast.iloc[len(forecast_list) - 1, 3] = forecast_m - (proba_res - 0.5) * forecast_res
+        range_forecast.iloc[len(forecast_list) - 1, 3] = (proba_res - 0.5) * forecast_res
         if (range_forecast.range.iloc[len(range_forecast) - 1] == 0):
             if (range_forecast.range.iloc[len(range_forecast) - 2] == 0):
                 print('lost_output_data')
@@ -332,5 +332,5 @@ class Forecastting:
             range_forecast.to_csv(R_F_T, index=False)
         except:
             print('save_nick _csv_t_err')
-        print(is_increase, proba_positive, forecast_m - np.sum(range_forecast.iloc[len(range_forecast) - 119: len(range_forecast),3]))
-        return is_increase, proba_positive,  forecast_m - np.sum(range_forecast.iloc[len(range_forecast) - 119: len(range_forecast),3])
+        print(is_increase, proba_positive, forecast_m - np.sum(range_forecast.iloc[len(range_forecast) - 120: len(range_forecast),3]))
+        return is_increase, proba_positive,  forecast_m - np.sum(range_forecast.iloc[len(range_forecast) - 120: len(range_forecast),3])
