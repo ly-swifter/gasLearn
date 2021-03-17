@@ -35,8 +35,6 @@ class Forecastting:
             range_forecast = range_forecast.copy().insert(1, 'forecast_list', 0)
             forecast_list = range_forecast.copy().iloc[len(range_forecast) - 10000 : len(range_forecast) , 3]
         range_forecast = range_forecast.copy().iloc[len(range_forecast) - 10000: len(range_forecast) , 0 : 3]
-        print('forecast_debug')
-        print(range_forecast.shape)
         gas = gas.drop(columns=['range', 'forecast'])
         gas = gas.sort_values(by=['epoch'])
         gas = pd.merge(gas, range_forecast, on='epoch', how='left').sort_values(by=['epoch'], ascending=True)
@@ -187,6 +185,8 @@ class Forecastting:
                 gas.range.iloc[len(gas) - 1] = sample_rate.iloc[2, 2 * i]
                 gas.forecast.iloc[len(gas) - 1] = forecast[i]
         range_forecast = pd.concat([epoch, gas.range.copy(), gas.forecast.copy()], axis=1)
+        print('train_debug')
+        print(range_forecast.shape)
         forecast_res_t = fee.copy().iloc[len(fee) - 240 : len(fee)].rolling(120).median() - fee.copy().iloc[len(fee) - 240 : len(fee)].shift(120)
         forecast_res =  (np.std(forecast_res_t.copy().iloc[len(forecast_res_t) - 120 : len(forecast_res_t)]) + np.std(forecast_res_t.copy().iloc[len(forecast_res_t) - 74 : len(forecast_res_t)])) / 2
         forecast_m = fee.copy().iloc[len(fee) - 120 : len(fee)].median()
