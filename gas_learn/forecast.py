@@ -332,5 +332,5 @@ class Forecastting:
             range_forecast.to_csv(R_F_T, index=False)
         except:
             print('save_nick _csv_t_err')
-        print(is_increase, proba_positive, forecast_m - (proba_res - 0.5) * forecast_res)
-        return is_increase, proba_positive, forecast_m - (proba_res - 0.5) * forecast_res
+        print(is_increase, proba_positive, forecast_m - np.sum(range_forecast.iloc[len(range_forecast) - 119: len(range_forecast),3]))
+        return is_increase, proba_positive,  forecast_m - np.sum(range_forecast.iloc[len(range_forecast) - 119: len(range_forecast),3])
