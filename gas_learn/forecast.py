@@ -15,20 +15,26 @@ class Forecastting:
         L2LR = pickle.load(open(L2LR_PICKLE_FILE, 'rb'))
         sample_rate = pd.read_csv(SAMPLE_RATE_FILE)
         try:
-            range_forecast = pd.read_csv(R_F).copy().iloc[: , 0 : 3]
+            range_forecast = pd.read_csv(R_F)
         except:
             print('load_nick_csv_err')
             try:
-                range_forecast = pd.read_csv(R_F_T).copy().iloc[: , 0 : 3]
+                range_forecast = pd.read_csv(R_F_T)
             except:
                 print('load_nick_csv_t_err')
         if (range_forecast.range.iloc[len(range_forecast) - 1] == 0):
             if (range_forecast.range.iloc[len(range_forecast) - 2] == 0):
-                range_forecast = pd.read_csv(R_F_T).copy().iloc[: , 0 : 3]
+                range_forecast = pd.read_csv(R_F_T)
         gas = pd.read_csv(file_path)
         if (gas.parent_basefee.iloc[len(gas) - 1] == 0):
             if (gas.parent_basefee.iloc[len(gas) - 2] == 0):
                 print('lost_input_data')
+        try:
+            forecast_list = range_forecast.copy().iloc[: , 3]
+        except:
+            range_forecast = range_forecast.copy().insert(1, 'forecast_list', 0)
+            forecast_list = range_forecast.copy().iloc[: , 3]
+        range_forecast = range_forecast.copy().iloc[: , 0 : 3]
         gas = gas.drop(columns=['range', 'forecast'])
         gas = gas.sort_values(by=['epoch'])
         gas = pd.merge(gas, range_forecast, on='epoch', how='left').sort_values(by=['epoch'], ascending=True)
@@ -182,17 +188,6 @@ class Forecastting:
         forecast_res_t = fee.copy().iloc[len(fee) - 240 : len(fee)].rolling(120).median() - fee.copy().iloc[len(fee) - 240 : len(fee)].shift(120)
         forecast_res =  (np.std(forecast_res_t.copy().iloc[len(forecast_res_t) - 120 : len(forecast_res_t)]) + np.std(forecast_res_t.copy().iloc[len(forecast_res_t) - 74 : len(forecast_res_t)])) / 2
         forecast_m = fee.copy().iloc[len(fee) - 120 : len(fee)].median()
-        if (range_forecast.range.iloc[len(range_forecast) - 1] == 0):
-            if (range_forecast.range.iloc[len(range_forecast) - 2] == 0):
-                print('lost_output_data')
-        try:
-            range_forecast.to_csv(R_F, index=False)
-        except:
-            print('save_nick _csv_err')
-        try:
-            range_forecast.to_csv(R_F_T, index=False)
-        except:
-            print('save_nick _csv_t_err')
         gas = gas.drop(columns=['parent_basefee'])
         rate_f = 0
         fee_range = 0
@@ -324,5 +319,18 @@ class Forecastting:
         is_increase = L2LR.predict(gas_test)
         proba_positive = L2LR.predict_proba(gas_test)
         proba_res = proba_positive[0][0]
+        range_forecast = pd.concat([range_forecast, forecast_list.shift(-1)], axis=1)
+        range_forecast.iloc[len(forecast_list) - 1, 3] = forecast_m - (proba_res - 0.5) * forecast_res
+        if (range_forecast.range.iloc[len(range_forecast) - 1] == 0):
+            if (range_forecast.range.iloc[len(range_forecast) - 2] == 0):
+                print('lost_output_data')
+        try:
+            range_forecast.to_csv(R_F, index=False)
+        except:
+            print('save_nick _csv_err')
+        try:
+            range_forecast.to_csv(R_F_T, index=False)
+        except:
+            print('save_nick _csv_t_err')
         print(is_increase, proba_positive, forecast_m - (proba_res - 0.5) * forecast_res)
         return is_increase, proba_positive, forecast_m - (proba_res - 0.5) * forecast_res
