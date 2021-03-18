@@ -180,6 +180,7 @@ class Forecastting:
                 history_raw.iloc[i] *= np.median(prop_raw)
             forecast[j] = history_raw.median() - history_raw.rolling(
                 5).median().iloc[4]
+        print('forecast_debug')
         for i in range(5):
             if (np.min(score) == score[i]):
                 gas.range.iloc[len(gas) - 1] = sample_rate.iloc[2, 2 * i]
@@ -192,7 +193,6 @@ class Forecastting:
         for i in range(len(forecast_res_t) - 1):
             forecast_res =  forecast_res +  np.std(forecast_res_t)
             forecast_res_t = forecast_res_t.copy().iloc[1 : len(forecast_res_t)]
-        print('forecast_debug')
         forecast_res = forecast_res / 60
         forecast_m = fee.iloc[len(fee) - 120 : len(fee)].median()
         gas = gas.drop(columns=['parent_basefee'])
