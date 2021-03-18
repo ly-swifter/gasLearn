@@ -51,7 +51,6 @@ class Forecastting:
             'epoch', 'limit_avg_block', 'cap_avg_block', 'premium_avg_block'
         ])
         fee = gas.parent_basefee.copy()
-        print('forecast_debug')
         for j in range(5):
             rate = rate_all[j]
             forecast_l = forecast_l_all[j]
@@ -185,6 +184,7 @@ class Forecastting:
             if (np.min(score) == score[i]):
                 gas.range.iloc[len(gas) - 1] = sample_rate.iloc[2, 2 * i]
                 gas.forecast.iloc[len(gas) - 1] = forecast[i]
+        print('forecast_debug')
         range_forecast = pd.concat([epoch, gas.range.copy(), gas.forecast.copy()], axis=1)
         forecast_res_t = fee.copy().iloc[len(fee) - 240 : len(fee)].rolling(120).median() - fee.copy().iloc[len(fee) - 240 : len(fee)].shift(119)
         forecast_res_t = forecast_res_t.copy().iloc[len(forecast_res_t) - 120 : len(forecast_res_t)]
@@ -192,6 +192,7 @@ class Forecastting:
         for i in range(len(forecast_res_t) - 1):
             forecast_res =  forecast_res +  np.std(forecast_res_t)
             forecast_res_t = forecast_res_t.copy().iloc[1 : len(forecast_res_t)]
+        print('forecast_debug')
         forecast_res = forecast_res / 60
         forecast_m = fee.iloc[len(fee) - 120 : len(fee)].median()
         gas = gas.drop(columns=['parent_basefee'])
