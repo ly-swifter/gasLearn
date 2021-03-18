@@ -186,11 +186,11 @@ class Forecastting:
                 gas.forecast.iloc[len(gas) - 1] = forecast[i]
         range_forecast = pd.concat([epoch, gas.range.copy(), gas.forecast.copy()], axis=1)
         forecast_res_t = fee.copy().iloc[len(fee) - 240 : len(fee)].rolling(120).median() - fee.copy().iloc[len(fee) - 240 : len(fee)].shift(119)
-        forecast_res_t = forecast_res_t.iloc[len(forecast_res_t) - 120 : len(forecast_res_t)]
+        forecast_res_t = forecast_res_t.copy().iloc[len(forecast_res_t) - 120 : len(forecast_res_t)]
         forecast_res = 0
         for i in range(len(forecast_res_t) - 1):
             forecast_res =  forecast_res +  np.std(forecast_res_t)
-            forecast_res_t = forecast_res_t.iloc[1 : len(forecast_res_t)]
+            forecast_res_t = forecast_res_t.copy().iloc[1 : len(forecast_res_t)]
         forecast_res = forecast_res / 60
         forecast_m = fee.copy().iloc[len(fee) - 120 : len(fee)].median()
         print('forecast_debug')
