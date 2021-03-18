@@ -337,5 +337,5 @@ class Forecastting:
             range_forecast.to_csv(R_F_T, index=False)
         except:
             print('save_nick _csv_t_err')
-        print(is_increase, proba_positive, forecast_m - range_forecast.iloc[len(range_forecast) - 120 : len(range_forecast) , 3].sum() / 14.7, -range_forecast.iloc[len(range_forecast) - 120 : len(range_forecast) , 3].sum() / 14.7)
-        return is_increase, proba_positive,  forecast_m - range_forecast.iloc[len(range_forecast) - 120 : len(range_forecast) , 3].sum() / 14.7
+        print(is_increase, proba_positive, forecast_m - range_forecast.iloc[len(range_forecast) - 120 : len(range_forecast) , 3].sum() / 60, -range_forecast.iloc[len(range_forecast) - 120 : len(range_forecast) , 3].sum() / 60)
+        return is_increase, proba_positive,  forecast_m - range_forecast.iloc[len(range_forecast) - 120 : len(range_forecast) , 3].sum() / 60
