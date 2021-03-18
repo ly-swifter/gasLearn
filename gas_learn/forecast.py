@@ -188,8 +188,10 @@ class Forecastting:
         forecast_res_t = fee.copy().iloc[len(fee) - 240 : len(fee)].rolling(120).median() - fee.copy().iloc[len(fee) - 240 : len(fee)].shift(119)
         forecast_res_t = forecast_res_t.iloc[len(forecast_res_t) - 120 : len(forecast_res_t)]
         forecast_res = 0
-        for i in range(len(forecast_res_t)):
-            forecast_res =  forecast_res +  (i + 1) * forecast_res_t.iloc[i] / 7200
+        for i in range(len(forecast_res_t) - 1):
+            forecast_res =  forecast_res +  np.std(forecast_res_t)
+            forecast_res_t = forecast_res_t.iloc[1 : len(forecast_res_t)]
+        forecast_res = forecast_res / 60
         forecast_m = fee.copy().iloc[len(fee) - 120 : len(fee)].median()
         gas = gas.drop(columns=['parent_basefee'])
         rate_f = 0
@@ -323,7 +325,7 @@ class Forecastting:
         proba_positive = L2LR.predict_proba(gas_test)
         proba_res = proba_positive[0][0]
         range_forecast = pd.concat([range_forecast.reset_index(drop = True), forecast_list.shift(-1).reset_index(drop = True)], axis=1)
-        range_forecast.iloc[len(range_forecast) - 1, 3] = (proba_res - 0.5) * abs(forecast_res)
+        range_forecast.iloc[len(range_forecast) - 1, 3] = (proba_res - 0.5) * forecast_res
         if (range_forecast.range.iloc[len(range_forecast) - 1] == 0):
             if (range_forecast.range.iloc[len(range_forecast) - 2] == 0):
                 print('lost_output_data')
