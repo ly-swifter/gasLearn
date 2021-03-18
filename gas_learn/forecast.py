@@ -29,9 +29,15 @@ class Forecastting:
         if (gas.parent_basefee.iloc[len(gas) - 1] == 0):
             if (gas.parent_basefee.iloc[len(gas) - 2] == 0):
                 print('lost_input_data')
+        try:
+            forecast_list = range_forecast.copy().iloc[len(range_forecast) - 10000 : len(range_forecast) , 3]
+        except:
+            range_forecast = range_forecast.copy().insert(1, 'forecast_list', 0)
+            forecast_list = range_forecast.copy().iloc[len(range_forecast) - 10000 : len(range_forecast) , 3]
+        range_forecast = range_forecast.copy().iloc[len(range_forecast) - 10000: len(range_forecast) , 0 : 3]
         gas = gas.drop(columns=['range', 'forecast'])
-        gas = pd.merge(gas, range_forecast, on='epoch',
-                       how='left').sort_values(by=['epoch'], ascending=True)
+        gas = gas.sort_values(by=['epoch'])
+        gas = pd.merge(gas, range_forecast, on='epoch', how='left').sort_values(by=['epoch'], ascending=True)
         gas = gas.iloc[len(gas) - 10000 : len(gas), :].fillna(0)
         rate_all = [1.6180339887, 2.058, 2.6180339887, 3.33, 4.236]
         forecast_l_all = [
@@ -40,7 +46,7 @@ class Forecastting:
         ]
         score = [0, 0, 0, 0, 0]
         forecast = [0, 0, 0, 0, 0]
-        epoch = gas.epoch
+        epoch = gas.epoch.copy()
         gas = gas.drop(columns=[
             'epoch', 'limit_avg_block', 'cap_avg_block', 'premium_avg_block'
         ])
@@ -178,20 +184,10 @@ class Forecastting:
             if (np.min(score) == score[i]):
                 gas.range.iloc[len(gas) - 1] = sample_rate.iloc[2, 2 * i]
                 gas.forecast.iloc[len(gas) - 1] = forecast[i]
-        forecast_res =  (np.std(fee.copy().iloc[len(fee) - 120 : len(fee)]) + np.std(fee.copy().iloc[len(fee) - 74 : len(fee)])) / 2
+        range_forecast = pd.concat([epoch, gas.range.copy(), gas.forecast.copy()], axis=1)
+        forecast_res_t = fee.copy().iloc[len(fee) - 240 : len(fee)].rolling(120).median() - fee.copy().iloc[len(fee) - 240 : len(fee)].shift(120)
+        forecast_res =  (np.std(forecast_res_t.copy().iloc[len(forecast_res_t) - 120 : len(forecast_res_t)]) + np.std(forecast_res_t.copy().iloc[len(forecast_res_t) - 74 : len(forecast_res_t)])) / 2
         forecast_m = fee.copy().iloc[len(fee) - 120 : len(fee)].median()
-        range_forecast = pd.concat([epoch, gas.range, gas.forecast], axis=1)
-        if (range_forecast.range.iloc[len(range_forecast) - 1] == 0):
-            if (range_forecast.range.iloc[len(range_forecast) - 2] == 0):
-                print('lost_output_data')
-        try:
-            range_forecast.to_csv(R_F, index=False)
-        except:
-            print('save_nick _csv_err')
-        try:
-            range_forecast.to_csv(R_F_T, index=False)
-        except:
-            print('save_nick _csv_t_err')
         gas = gas.drop(columns=['parent_basefee'])
         rate_f = 0
         fee_range = 0
@@ -225,20 +221,15 @@ class Forecastting:
         gas = pd.concat(
             [gas, (fee.rolling(round(8 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat(
-            [gas, (fee.rolling(round(13 * rate_all[rate_f])).median())],
-            axis=1)
+            [gas, (fee.rolling(round(13 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat(
-            [gas, (fee.rolling(round(21 * rate_all[rate_f])).median())],
-            axis=1)
+            [gas, (fee.rolling(round(21 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat(
-            [gas, (fee.rolling(round(34 * rate_all[rate_f])).median())],
-            axis=1)
+            [gas, (fee.rolling(round(34 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat(
-            [gas, (fee.rolling(round(55 * rate_all[rate_f])).median())],
-            axis=1)
+            [gas, (fee.rolling(round(55 * rate_all[rate_f])).median())], axis=1)
         gas = pd.concat(
-            [gas, (fee.rolling(round(89 * rate_all[rate_f])).median())],
-            axis=1)
+            [gas, (fee.rolling(round(89 * rate_all[rate_f])).median())], axis=1)
         gas.block_count = gas.block_count.rolling(120).mean()
         gas.count_block = gas.count_block.rolling(120).mean()
         gas.limit_total_block = gas.limit_total_block.rolling(120).median()
@@ -327,6 +318,19 @@ class Forecastting:
             axis=1)
         is_increase = L2LR.predict(gas_test)
         proba_positive = L2LR.predict_proba(gas_test)
-        print(is_increase, proba_positive, forecast_m - forecast_res * (proba_positive[0][0] - 0.5))
-        return is_increase, proba_positive, forecast_m - forecast_res * (proba_positive[0][0] - 0.5)
-
+        proba_res = proba_positive[0][0]
+        range_forecast = pd.concat([range_forecast.reset_index(drop = True), forecast_list.shift(-1).reset_index(drop = True)], axis=1)
+        range_forecast.iloc[len(range_forecast) - 1, 3] = (proba_res - 0.5) * forecast_res
+        if (range_forecast.range.iloc[len(range_forecast) - 1] == 0):
+            if (range_forecast.range.iloc[len(range_forecast) - 2] == 0):
+                print('lost_output_data')
+        try:
+            range_forecast.to_csv(R_F, index=False)
+        except:
+            print('save_nick _csv_err')
+        try:
+            range_forecast.to_csv(R_F_T, index=False)
+        except:
+            print('save_nick _csv_t_err')
+        print(is_increase, proba_positive, forecast_m - range_forecast.iloc[len(range_forecast) - 119 : len(range_forecast) , 3].median())
+        return is_increase, proba_positive,  forecast_m - range_forecast.iloc[len(range_forecast) - 119 : len(range_forecast) , 3].median()
