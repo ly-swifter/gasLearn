@@ -180,10 +180,10 @@ class Forecastting:
                 history_raw.iloc[i] *= np.median(prop_raw)
             forecast[j] = history_raw.median() - history_raw.rolling(
                 5).median().iloc[4]
-        print('forecast_debug')
         for i in range(5):
             if (np.min(score) == score[i]):
                 gas.range.iloc[len(gas) - 1] = sample_rate.iloc[2, 2 * i]
+                print('forecast_debug')
                 gas.forecast.iloc[len(gas) - 1] = forecast[i]
         print('forecast_debug')
         range_forecast = pd.concat([epoch, gas.range.copy(), gas.forecast.copy()], axis=1)
