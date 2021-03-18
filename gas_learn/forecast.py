@@ -189,7 +189,7 @@ class Forecastting:
         forecast_res_t = forecast_res_t.iloc[len(forecast_res_t) - 120 : len(forecast_res_t)]
         forecast_res = 0
         for i in range(len(forecast_res_t)):
-            forecast_res =  forecast_res +  (i + 1) * forecast_res_t.iloc[i] / 60
+            forecast_res =  forecast_res +  (i + 1) * forecast_res_t.iloc[i] / 3600
         forecast_m = fee.copy().iloc[len(fee) - 120 : len(fee)].median()
         gas = gas.drop(columns=['parent_basefee'])
         rate_f = 0
