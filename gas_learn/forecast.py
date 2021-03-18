@@ -182,10 +182,8 @@ class Forecastting:
                 5).median().iloc[4]
         for i in range(5):
             if (np.min(score) == score[i]):
-                gas.range.iloc[len(gas) - 1] = sample_rate.iloc[2, 2 * i]
-                print('forecast_debug')
-                gas.forecast.iloc[len(gas) - 1] = forecast[i]
-        print('forecast_debug')
+                gas.iloc[len(gas) - 1, 1] = sample_rate.iloc[2, 2 * i]
+                gas.iloc[len(gas) - 1, 2] = forecast[i]
         range_forecast = pd.concat([epoch, gas.range.copy(), gas.forecast.copy()], axis=1)
         forecast_res_t = fee.copy().iloc[len(fee) - 240 : len(fee)].rolling(120).median() - fee.copy().iloc[len(fee) - 240 : len(fee)].shift(119)
         forecast_res_t = forecast_res_t.copy().iloc[len(forecast_res_t) - 120 : len(forecast_res_t)]
