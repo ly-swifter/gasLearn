@@ -189,7 +189,7 @@ class Forecastting:
         forecast_res_t = forecast_res_t.iloc[len(forecast_res_t) - 120 : len(forecast_res_t)]
         forecast_res = 0
         for i in range(len(forecast_res_t)):
-            forecast_res =  forecast_res +  (i + 1) * forecast_res_t.iloc[i] / 7200
+            forecast_res =  forecast_res +  (i + 1) * forecast_res_t.iloc[i] / 3600
         forecast_m = fee.copy().iloc[len(fee) - 120 : len(fee)].median()
         gas = gas.drop(columns=['parent_basefee'])
         rate_f = 0
@@ -335,5 +335,5 @@ class Forecastting:
             range_forecast.to_csv(R_F_T, index=False)
         except:
             print('save_nick _csv_t_err')
-        print(is_increase, proba_positive, forecast_m - range_forecast.iloc[len(range_forecast) - 119 : len(range_forecast) , 3].median())
-        return is_increase, proba_positive,  forecast_m - range_forecast.iloc[len(range_forecast) - 119 : len(range_forecast) , 3].median()
+        print(is_increase, proba_positive, forecast_m - range_forecast.iloc[len(range_forecast) - 120 : len(range_forecast) , 3].median(), -range_forecast.iloc[len(range_forecast) - 120 : len(range_forecast) , 3].median())
+        return is_increase, proba_positive,  forecast_m - range_forecast.iloc[len(range_forecast) - 120 : len(range_forecast) , 3].median()
