@@ -1,15 +1,11 @@
 import pickle
-
 import pandas as pd
 import numpy as np
 import requests
-
 from sklearn.linear_model import LogisticRegression
 from sklearn import preprocessing
 from sklearn.preprocessing import MinMaxScaler
-
 from .consts import L2LR_PICKLE_FILE, SAMPLE_RATE_FILE, R_F, R_F_T
-
 class Forecastting:
     def forecast(self, file_path, raw_range):
         L2LR = pickle.load(open(L2LR_PICKLE_FILE, 'rb'))
