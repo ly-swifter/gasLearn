@@ -364,3 +364,4 @@ class Forecastting:
             forecast_d = -1000000000           
         print(is_increase, proba_positive, forecast_m - forecast_d, -forecast_d)
         return is_increase, proba_positive,  forecast_m - forecast_d
+
