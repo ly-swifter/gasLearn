@@ -338,8 +338,26 @@ class Forecastting:
         except:
             print('save_nick _csv_t_err')
         forecast_d = 0
+        _range_forecast = range_forecast.iloc[:, 3].copy()
+        range_forecast_t = _range_forecast.copy()
+        for i in range(len(range_forecast_t)):
+            if(range_forecast_t.iloc[i] >= 0):
+                range_forecast_t.iloc[i] = 1
+            else:
+                range_forecast_t.iloc[i] = -1
+            if(range_forecast_t.sum() >= 0):
+                for i in range(len(range_forecast_t)):
+                    if(range_forecast_t.iloc[i] = -1):
+                        range_forecast_t.iloc[i] = 0
+            else:
+                 for i in range(len(range_forecast_t)):
+                    if(range_forecast_t.iloc[i] = 1):
+                        range_forecast_t.iloc[i] = 0
+                    else:
+                        range_forecast_t.iloc[i] = 1
+        _range_forecast = _range_forecast *   range_forecast_t
         for i in range(120):
-            forecast_d =  forecast_d +  (120 - i) * range_forecast.iloc[len(range_forecast) - 1, 3] / 441
+            forecast_d =  forecast_d +  (120 - i) * range_forecast.iloc[len(range_forecast) - 1, 3] / 3600
         if (forecast_d > 1000000000):
             forecast_d = 1000000000
         if (forecast_d < -1000000000):
