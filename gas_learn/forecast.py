@@ -355,9 +355,9 @@ class Forecastting:
                         range_forecast_t.iloc[i] = 0
                     else:
                         range_forecast_t.iloc[i] = 1
-        t = range_forecast_t.sum() / 24
-        t = (10 / (1 + np.exp(-t)) - 5) / t     
-        _range_forecast = _range_forecast *   range_forecast_t
+        t = range_forecast_t.sum() / 12
+        t = (20 / (1 + np.exp(-t)) - 10) / t     
+        _range_forecast = _range_forecast * range_forecast_t
         for i in range(120):
             forecast_d =  forecast_d +  (120 - i) * _range_forecast.iloc[len(_range_forecast) - 1 - i] / 3600
         forecast_d = t * forecast_d
