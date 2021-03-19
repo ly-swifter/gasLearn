@@ -365,6 +365,7 @@ class Forecastting:
             forecast_d = 1000000000
         if (forecast_d < -1000000000):
             forecast_d = -1000000000 
+        forecast_d = range_forecast.forecast.iloc[len(range_forecast) - 1]
         print(is_increase, proba_positive, forecast_m - forecast_d, -forecast_d, t)
         return is_increase, proba_positive,  forecast_m - forecast_d
 
