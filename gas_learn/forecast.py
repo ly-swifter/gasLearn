@@ -359,7 +359,8 @@ class Forecastting:
         t = (6 / (1 + np.exp(-t)) - 3) / t     
         _range_forecast = _range_forecast *   range_forecast_t
         for i in range(120):
-            forecast_d =  forecast_d +  t * (120 - i) * _range_forecast.iloc[len(_range_forecast) - 1 - i] / 3600
+            forecast_d =  forecast_d +  (120 - i) * _range_forecast.iloc[len(_range_forecast) - 1 - i] / 3600
+        forecast_d = t * forecast_d
         if (forecast_d > 1000000000):
             forecast_d = 1000000000
         if (forecast_d < -1000000000):
