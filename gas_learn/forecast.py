@@ -339,6 +339,10 @@ class Forecastting:
             print('save_nick _csv_t_err')
         forecast_d = 0
         for i in range(120):
-            forecast_d =  forecast_d +  (120 - i) * range_forecast.iloc[len(range_forecast) - 1, 3] / 7200
+            forecast_d =  forecast_d +  (120 - i) * range_forecast.iloc[len(range_forecast) - 1, 3] / 441
+        if (forecast_d > 1000000000):
+            forecast_d = 1000000000
+        if (forecast_d < -1000000000):
+            forecast_d = -1000000000           
         print(is_increase, proba_positive, forecast_m - forecast_d, -forecast_d)
         return is_increase, proba_positive,  forecast_m - forecast_d
