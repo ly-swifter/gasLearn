@@ -197,7 +197,6 @@ class Forecastting:
             forecast_res =  forecast_res +  np.std(forecast_res_t)
             forecast_res_t = forecast_res_t.copy().iloc[1 : len(forecast_res_t)]
         forecast_res = forecast_res / 60
-        forecast_m = fee.iloc[len(fee) - 120 : len(fee)].median()
         gas = gas.drop(columns=['parent_basefee'])
         rate_f = 0
         fee_range = 0
@@ -363,6 +362,7 @@ class Forecastting:
         t = range_forecast_t.sum() / 40
         t = (6 / (1 + np.exp(-t)) - 3) / t     
         _range_forecast = _range_forecast * range_forecast_t
+        forecast_d = 0
         for i in range(120):
             forecast_d =  forecast_d +  (120 - i) * _range_forecast.iloc[len(_range_forecast) - 1 - i] / 3600
         forecast_d = t * forecast_d
@@ -370,7 +370,9 @@ class Forecastting:
             forecast_d = 1000000000
         if (forecast_d < -1000000000):
             forecast_d = -1000000000 
-        forecast_d = range_forecast.forecast.iloc[len(range_forecast) - 1]
+        forecast_m = np.polyfit(range(120), fee.iloc[len(fee) - 121 : len(fee) - 1], 1)
+        forecast_m = np.poly1d(forecast_m)
+        forecast_m = forecast_m(119)
         print(is_increase, proba_positive, forecast_m - forecast_d, -forecast_d, forecast_t)
         return is_increase, proba_positive,  forecast_m - forecast_d
 
