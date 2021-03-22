@@ -188,6 +188,7 @@ class Forecastting:
                  if (forecast[i] < -abs(3000000000 - fee.iloc[len(fee) - 1]) * 0.1):
                     forecast[i] = -abs(3000000000 - fee.iloc[len(fee) - 1]) * 0.1                   
                 gas.iloc[len(gas) - 1, 8] = forecast[i]
+                forecast_t = forecast[i]
         range_forecast = pd.concat([epoch, gas.range, gas.forecast], axis=1)
         forecast_res_t = fee.copy().iloc[len(fee) - 240 : len(fee)].rolling(120).median() - fee.copy().iloc[len(fee) - 240 : len(fee)].shift(119)
         forecast_res_t = forecast_res_t.copy().iloc[len(forecast_res_t) - 120 : len(forecast_res_t)]
@@ -370,7 +371,7 @@ class Forecastting:
         if (forecast_d < -1000000000):
             forecast_d = -1000000000 
         forecast_d = range_forecast.forecast.iloc[len(range_forecast) - 1]
-        print(is_increase, proba_positive, forecast_m - forecast_d, -forecast_d, t)
+        print(is_increase, proba_positive, forecast_m - forecast_d, -forecast_d, forecast_t)
         return is_increase, proba_positive,  forecast_m - forecast_d
 
 
