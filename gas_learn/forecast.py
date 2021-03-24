@@ -183,7 +183,12 @@ class Forecastting:
         for i in range(5):
             if (np.min(score) == score[i]):
                 gas.iloc[len(gas) - 1, 7] = sample_rate.iloc[2, 2 * i]
+                if (forecast[i] > (3000000000 - abs(3000000000 - fee.iloc[len(fee) - 1])) * 0.309):
+                    forecast[i] = (3000000000 - abs(3000000000 - fee.iloc[len(fee) - 1])) * 0.309
+                 if (forecast[i] < -(3000000000 - abs(3000000000 - fee.iloc[len(fee) - 1])) * 0.309):
+                    forecast[i] = -(3000000000 - abs(3000000000 - fee.iloc[len(fee) - 1])) * 0.309                
                 gas.iloc[len(gas) - 1, 8] = forecast[i]
+                forecast_t = forecast[i]
         range_forecast = pd.concat([epoch, gas.range, gas.forecast], axis=1)
         forecast_res_t = fee.copy().iloc[len(fee) - 240 : len(fee)].rolling(120).median() - fee.copy().iloc[len(fee) - 240 : len(fee)].shift(119)
         forecast_res_t = forecast_res_t.copy().iloc[len(forecast_res_t) - 120 : len(forecast_res_t)]
@@ -192,7 +197,6 @@ class Forecastting:
             forecast_res =  forecast_res +  np.std(forecast_res_t)
             forecast_res_t = forecast_res_t.copy().iloc[1 : len(forecast_res_t)]
         forecast_res = forecast_res / 60
-        forecast_m = fee.iloc[len(fee) - 120 : len(fee)].median()
         gas = gas.drop(columns=['parent_basefee'])
         rate_f = 0
         fee_range = 0
@@ -355,13 +359,22 @@ class Forecastting:
                         range_forecast_t.iloc[i] = 0
                     else:
                         range_forecast_t.iloc[i] = 1
-        _range_forecast = _range_forecast *   range_forecast_t
+        t = range_forecast_t.sum() / 40
+        t = (6 / (1 + np.exp(-t)) - 3) / t     
+        _range_forecast = _range_forecast * range_forecast_t
+        forecast_d = 0
         for i in range(120):
-            forecast_d =  forecast_d +  (120 - i) * _range_forecast.iloc[len(_range_forecast) - 1, 3] / 3600
+            forecast_d =  forecast_d +  (120 - i) * _range_forecast.iloc[len(_range_forecast) - 1 - i] / 3600
+        forecast_d = t * forecast_d
         if (forecast_d > 1000000000):
             forecast_d = 1000000000
         if (forecast_d < -1000000000):
-            forecast_d = -1000000000           
-        print(is_increase, proba_positive, forecast_m - forecast_d, -forecast_d)
+            forecast_d = -1000000000 
+        forecast_m = np.polyfit(range(120), fee.iloc[len(fee) - 121 : len(fee) - 1], 1)
+        forecast_m = np.poly1d(forecast_m)
+        forecast_m = forecast_m(119)
+        print(is_increase, proba_positive, forecast_m - forecast_d, -forecast_d, forecast_t)
         return is_increase, proba_positive,  forecast_m - forecast_d
+
+
 
