@@ -185,7 +185,7 @@ class Forecastting:
                 gas.iloc[len(gas) - 1, 7] = sample_rate.iloc[2, 2 * i]
                 if (forecast[i] > (3000000000 - abs(3000000000 - fee.iloc[len(fee) - 1])) * 0.309):
                     forecast[i] = (3000000000 - abs(3000000000 - fee.iloc[len(fee) - 1])) * 0.309
-                 if (forecast[i] < -(3000000000 - abs(3000000000 - fee.iloc[len(fee) - 1])) * 0.309):
+                if (forecast[i] < -(3000000000 - abs(3000000000 - fee.iloc[len(fee) - 1])) * 0.309):
                     forecast[i] = -(3000000000 - abs(3000000000 - fee.iloc[len(fee) - 1])) * 0.309                
                 gas.iloc[len(gas) - 1, 8] = forecast[i]
                 forecast_t = forecast[i]
