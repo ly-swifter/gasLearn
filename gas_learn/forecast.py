@@ -346,16 +346,18 @@ class Forecastting:
         range_forecast_t = _range_forecast.copy()
         for i in range(len(range_forecast_t)):
             if(range_forecast_t.iloc[i] >= 0):
-                range_forecast_t.iloc[i] = 1
+                range_forecast_t.iloc[i] = i + 1
             else:
-                range_forecast_t.iloc[i] = -1
+                range_forecast_t.iloc[i] = -i - 1
             if(range_forecast_t.sum() >= 0):
                 for i in range(len(range_forecast_t)):
-                    if(range_forecast_t.iloc[i] == -1):
+                    if(range_forecast_t.iloc[i] < 0):
                         range_forecast_t.iloc[i] = 0
+                    else:
+                        range_forecast_t.iloc[i] = 1
             else:
                  for i in range(len(range_forecast_t)):
-                    if(range_forecast_t.iloc[i] == 1):
+                    if(range_forecast_t.iloc[i] > 0):
                         range_forecast_t.iloc[i] = 0
                     else:
                         range_forecast_t.iloc[i] = 1
