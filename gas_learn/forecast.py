@@ -183,14 +183,14 @@ class Forecastting:
         for i in range(5):
             if (np.min(score) == score[i]):
                 gas.iloc[len(gas) - 1, 7] = sample_rate.iloc[2, 2 * i]
-                if (forecast[i] > 60000000000):
+                if (forecast[i] > 6000000000):
                     if (forecast[i] > 0):
                         forecast[i] = 0
-                    if (forecast[i] < - 60000000000 * 0.309):
-                        forecast[i] = - 60000000000 * 0.309
+                    if (forecast[i] < - 6000000000 * 0.309):
+                        forecast[i] = - 6000000000 * 0.309
                 else:
-                    if (forecast[i] > (60000000000 - forecast[i]) * 0.309):
-                        forecast[i] = (60000000000 - forecast[i]) * 0.309
+                    if (forecast[i] > (6000000000 - forecast[i]) * 0.309):
+                        forecast[i] = (6000000000 - forecast[i]) * 0.309
                     if (forecast[i] < - forecast[i] * 0.309):
                         forecast[i] = - forecast[i] * 0.309       
                 gas.iloc[len(gas) - 1, 8] = forecast[i]
