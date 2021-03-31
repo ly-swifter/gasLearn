@@ -346,9 +346,9 @@ class Forecastting:
         range_forecast_t = _range_forecast.copy()
         for i in range(len(range_forecast_t)):
             if(range_forecast_t.iloc[i] >= 0):
-                range_forecast_t.iloc[i] = 1
+                range_forecast_t.iloc[i] = i + 1
             else:
-                range_forecast_t.iloc[i] = 1
+                range_forecast_t.iloc[i] = -i - 1
             if(range_forecast_t.sum() >= 0):
                 for i in range(len(range_forecast_t)):
                     if(range_forecast_t.iloc[i] < 0):
@@ -366,15 +366,17 @@ class Forecastting:
         _range_forecast = _range_forecast * range_forecast_t
         forecast_d = 0
         for i in range(120):
-            forecast_d =  forecast_d +  (120 - i) * _range_forecast.iloc[len(_range_forecast) - 1 - i] / 1200
+            forecast_d =  forecast_d +  (120 - i) * _range_forecast.iloc[len(_range_forecast) - 1 - i] / 900
         forecast_d = t * forecast_d
         if (forecast_d > 1000000000):
             forecast_d = 1000000000
         if (forecast_d < -1000000000):
             forecast_d = -1000000000 
-        forecast_m = np.polyfit(range(120), fee.iloc[len(fee) - 121 : len(fee) - 1], 1)
-        forecast_m = np.poly1d(forecast_m)
-        forecast_m = forecast_m(119)
+        forecast_m_t = fee.iloc[len(fee) - 121 : len(fee) - 1]
+        forecast_m = 0
+        for i in range(120):
+            forecast_m = forecast_m + forecast_m_t.median()
+            forecast_m_t = forecast_m_t.iloc[1 : len(forecast_m_t) - 1]
         print(is_increase, proba_positive, forecast_m - forecast_d, -forecast_d, forecast_t)
         return is_increase, proba_positive,  forecast_m - forecast_d
 
