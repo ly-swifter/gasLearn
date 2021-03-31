@@ -374,10 +374,10 @@ class Forecastting:
             forecast_d = -1000000000 
         forecast_m_t = fee.iloc[len(fee) - 121 : len(fee) - 1]
         forecast_m = 0
-        for i in range(120):
+        for i in range(119):
             forecast_m = forecast_m + forecast_m_t.median()
             forecast_m_t = forecast_m_t.iloc[1 : len(forecast_m_t) - 1]
-        forecast_m = forecast_m / 120
+        forecast_m = forecast_m / 119
         print(is_increase, proba_positive, forecast_m - forecast_d, -forecast_d, forecast_t)
         return is_increase, proba_positive,  forecast_m - forecast_d
 
