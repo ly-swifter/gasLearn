@@ -361,7 +361,7 @@ class Forecastting:
                         range_forecast_t.iloc[i] = 0
                     else:
                         range_forecast_t.iloc[i] = 1
-        t = range_forecast_t.sum() / 40
+        t = range_forecast_t.sum() / 30
         t = 1 / (1 + np.exp(-t)) - 0.5
         _range_forecast = _range_forecast * range_forecast_t
         forecast_d = 0
