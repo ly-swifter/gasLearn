@@ -335,10 +335,7 @@ class Forecastting:
         proba_positive = L2LR.predict_proba(gas_test)
         proba_res = proba_positive[0][0]
         range_forecast = pd.concat([range_forecast.reset_index(drop = True), forecast_list.shift(-1).reset_index(drop = True)], axis=1)
-        if (proba_res - 0.5 >= 0):
-            range_forecast.iloc[len(range_forecast) - 1, 3] = forecast_res
-        else:
-            range_forecast.iloc[len(range_forecast) - 1, 3] = -forecast_res
+        range_forecast.iloc[len(range_forecast) - 1, 3] = (proba_res - 0.5) * forecast_res
         if (range_forecast.range.iloc[len(range_forecast) - 1] == 0):
             if (range_forecast.range.iloc[len(range_forecast) - 2] == 0):
                 print('lost_output_data')
